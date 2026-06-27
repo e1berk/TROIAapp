@@ -1,0 +1,363 @@
+import streamlit as st
+import pandas as pd
+import numpy as np
+from datetime import date
+
+# Sayfa Yapılandırması
+st.set_page_config(page_title="TROIA | Yapay Zeka Tabanlı Tarımsal Formülasyon", layout="wide")
+
+# Kurumsal Kimlik CSS Entegrasyonu
+st.markdown("""
+    <style>
+    /* Ana Arka Planı Temizle */
+    .stApp {
+        background-color: #F8F9FA;
+        color: #212529;
+    }
+    /* Sidebar'ı biraz daha koyu gri yaparak kontrast oluştur */
+    .sidebar .sidebar-content {
+        background-color: #E9ECEF;
+    }
+    /* Başlıkları Kurumsal Koyu Yeşil Yap */
+    h1, h2, h3, h4, h5 {
+        color: #1B4332 !important;
+    }
+    /* Butonları daha dikkat çekici ve okunaklı yap */
+    .stButton>button {
+        background-color: #2D6A4F;
+        color: #FFFFFF;
+        font-weight: bold;
+        border-radius: 5px;
+        border: none;
+    }
+    .stButton>button:hover {
+        background-color: #40916C;
+        color: #FFFFFF;
+    }
+    /* Tablo ve İstatistik Kutuları */
+    .highlight-box {
+        background-color: #FFFFFF;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 5px solid #2D6A4F;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    /* Tabloların beyaz zemin üzerinde net görünmesi için */
+    [data-testid="stDataFrame"] {
+        background-color: #FFFFFF;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# Sol Menü (Sidebar Navigasyon)
+st.sidebar.title("TROIA Platform")
+page = st.sidebar.radio("Modül Seçiniz:", 
+                        ["🏠 TROIA Nedir?", "🔬 Akıllı Formülasyon", "📊 Bilgi Sistemi", "🗺️ Dinamik Ekim Takvimi"])
+
+# --- 🏠 ANA SAYFA (TROIA NEDİR?) ---
+if page == "🏠 TROIA Nedir?":
+    st.title("TROIA")
+    st.subheader("Ezbere Tarıma Son: Veri Odaklı Hücresel Besleme.")
+    st.write("---")
+    
+    st.markdown("""
+    ### 🌾 Geleneksel Tarımdaki İrrasyonelliğe Dijital Müdahale
+    Bugün tarım ekosistemindeki en büyük krizlerden biri, üreticilerin tarlalarının gerçek biyokimyasal ihtiyacını bilmeden, 
+    kulaktan dolma bilgilerle veya standart katalog gübreleriyle körleme üretim yapmasıdır. Bu durum hem toprakların 
+    pH/tuzluluk dengesini bozarak kilitlenmesine neden olmakta hem de milyarlarca liralık ekonomik israfa yol açmaktadır.
+    
+    **TROIA**, bu ezbere dayalı yapıyı kırmak için geliştirilmiş, Üretken Yapay Zeka (Agent AI) tabanlı bir karar destek ve formülasyon sistemidir.
+    """)
+    
+    st.write("---")
+    st.markdown("### 🎯 Prototipimizin Temel Hedefleri")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""
+        <div class="highlight-box">
+            <h4>🔬 Parsele Özel Reçeteleme</h4>
+            <p>Piyasadaki tek tip gübre çuvalları yerine, tarladan gelen toprak analizi verilerini işleyerek sadece o parselin ve o mahsulün ihtiyaç duyduğu elementel oranları hesaplamak.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("""
+        <div class="highlight-box">
+            <h4>💧 Akıllı Su ve Hidrojel Yönetimi</h4>
+            <p>Formülasyona entegre edilecek hidrojel teknolojisiyle toprağın su tutma kapasitesini optimize etmek ve kuraklık riskine karşı direnç oluşturmak.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+        <div class="highlight-box">
+            <h4>📈 Sürdürülebilir Verimlilik Artışı</h4>
+            <p>Aşırı gübrelemenin yarattığı toprak yıkanmasını ve yeraltı suyu kirliliğini engelleyerek, birim alandan alınan mahsul kalitesini hücresel düzeyde artırmak.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("""
+        <div class="highlight-box">
+            <h4>🤖 Kendi Kendini Optimize Eden Döngü</h4>
+            <p>Sistemde üretilen her formülasyonu (periyodu) ve sahadan gelecek geri bildirimleri loglayarak, yapay zekanın sonraki kararlarında daha isabetli reçeteler üretmesini sağlamak.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.write("---")
+    st.markdown("### 📞 Proje Ekibi & İletişim")
+    
+    col_team1, col_team2, col_team3 = st.columns(3)
+    with col_team1:
+        st.markdown("**Ege Berk Çınar**")
+        st.caption("Sistem Mimarı & İş Geliştirme")
+    with col_team2:
+        st.markdown("**Elif Çiçek Akkor**")
+        st.caption("Tarımsal Gıda Analisti")
+    with col_team3:
+        st.markdown("**Liva Erkul**")
+        st.caption("Bilimsel Validasyon (Boğaziçi MBG)")
+        
+    st.write("")
+    st.caption("📧 İletişim: contact@troia-ai.com | 📍 Ortaklar - Aydın / İstanbul")
+
+# --- 🔬 1. AKILLI FORMÜLASYON ---
+elif page == "🔬 Akıllı Formülasyon":
+    st.title("🔬 Akıllı Formülasyon Modülü")
+    st.write("Tarlanıza özel biyokimyasal reçeteyi oluşturmak için verilerinizi adım adım girin. İlgili olmayan alanları boş bırakabilirsiniz, eksik veriler AI tarafından bölgesel ortalamalarla tamamlanacaktır.")
+    
+    # 0. Periyot İsimlendirme (Sabit Üst Başlık)
+    with st.container():
+        st.markdown("### 📌 Formülasyon Kaydı (Periyot)")
+        col_p1, col_p2 = st.columns([3, 1])
+        with col_p1:
+            tarla_adi = st.text_input("Tarla/Parsel Adı (Örn: Güney Mısır Tarlası - Parsel A)", placeholder="Yeni Periyot Adı...")
+        with col_p2:
+            kayit_tarihi = st.date_input("Kayıt Tarihi", value=date.today())
+            
+    st.write("---")
+
+    # Veri Giriş Sekmeleri (Kullanıcıyı yormamak için bölündü)
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "📍 1. Tarla & İklim", 
+        "🧪 2. Toprak Analizi", 
+        "🌾 3. Mahsul & Geçmiş", 
+        "💧 4. Sulama & Ekonomi", 
+        "🚀 5. Analiz & Üret"
+    ])
+
+    # SEKME 1: TARLA VE İKLİM
+    with tab1:
+        st.markdown("#### Tarla Fiziksel Özellikleri")
+        col1_1, col1_2, col1_3 = st.columns(3)
+        with col1_1:
+            alan = st.number_input("Alan (Dekar)", min_value=0.0, step=1.0)
+            toprak_tipi = st.selectbox("Toprak Tipi", ["Bilinmiyor", "Kumlu", "Tınlı", "Killi", "Organik"])
+        with col1_2:
+            rakim = st.number_input("Rakım (m)", min_value=0, step=10)
+            drenaj = st.selectbox("Drenaj Durumu", ["Bilinmiyor", "İyi", "Orta", "Zayıf"])
+        with col1_3:
+            egim = st.selectbox("Eğim Durumu", ["Düz (%0-2)", "Hafif Eğimli (%2-6)", "Eğimli (%6-12)", "Dik"])
+            baki = st.selectbox("Bakı Yönü", ["Kuzey", "Güney", "Doğu", "Batı", "Düz"])
+
+        st.info("🌤️ **İklim Verileri:** Konum (Koordinat) baz alınarak ortalama sıcaklık, son yağış miktarı, toprak nemi ve don/kuraklık riski API üzerinden sisteme otomatik entegre edilmektedir. Kullanıcı girişi gerekmez.")
+
+    # SEKME 2: TOPRAK ANALİZİ
+    with tab2:
+        st.markdown("#### Laboratuvar Toprak Analizi")
+        
+        # AI PDF Okuma Simülasyonu
+        st.markdown("Değerleri manuel girmek yerine laboratuvar PDF/JPG dosyanızı yükleyerek tablonun **yapay zeka tarafından otomatik doldurulmasını** sağlayabilirsiniz.")
+        uploaded_file = st.file_uploader("Laboratuvar Sonuç Raporu Yükle", type=['pdf', 'jpg', 'png'])
+        if uploaded_file is not None:
+            st.success("Belge işlendi! Değerler aşağıdaki tabloya başarıyla aktarıldı.")
+
+        st.markdown("##### Değer Kontrol / Manuel Giriş Alanı")
+        col2_1, col2_2, col2_3 = st.columns(3)
+        with col2_1:
+            st.markdown("**Temel Değerler**")
+            ph = st.number_input("pH Değeri", value=0.0, format="%.2f")
+            ec = st.number_input("EC (Elektriksel İletkenlik)", value=0.0)
+            om = st.number_input("Organik Madde (%)", value=0.0)
+            kirec = st.number_input("Kireç (%)", value=0.0)
+            tuzluluk = st.number_input("Tuzluluk (dS/m)", value=0.0)
+        with col2_2:
+            st.markdown("**Makro & Sekonder Elementler**")
+            n_val = st.number_input("Azot (N)", value=0.0)
+            p_val = st.number_input("Fosfor (P)", value=0.0)
+            k_val = st.number_input("Potasyum (K)", value=0.0)
+            ca_val = st.number_input("Kalsiyum (Ca)", value=0.0)
+            mg_val = st.number_input("Magnezyum (Mg)", value=0.0)
+        with col2_3:
+            st.markdown("**Mikro Elementler**")
+            fe_val = st.number_input("Demir (Fe)", value=0.0)
+            zn_val = st.number_input("Çinko (Zn)", value=0.0)
+            mn_val = st.number_input("Mangan (Mn)", value=0.0)
+            cu_val = st.number_input("Bakır (Cu)", value=0.0)
+            b_val = st.number_input("Bor (B)", value=0.0)
+
+    # SEKME 3: MAHSUL VE GEÇMİŞ
+    with tab3:
+        st.markdown("#### Güncel Mahsul Planlaması")
+        col3_1, col3_2 = st.columns(2)
+        with col3_1:
+            urun = st.selectbox("Ekilmesi Planlanan Ürün", ["Mısır", "Turp", "Buğday", "Pamuk", "Ayçiçeği"])
+            cesit = st.text_input("Çeşit (Örn: Pioneer, Dekalb)")
+            hedef_verim = st.number_input("Hedeflenen Verim (kg/dekar)", min_value=0)
+        with col3_2:
+            tohum_tipi = st.selectbox("Tohum Tipi", ["Sertifikalı", "Yerel/Ata Tohumu"])
+            ekim_tarihi = st.date_input("Planlanan Ekim Tarihi")
+            hasat_tarihi = st.date_input("Planlanan Hasat Tarihi")
+
+        # Geçmiş Veriler (Expander ile gizlenerek UX temiz tutuldu)
+        with st.expander("🕰️ Geçmiş Tarım Verileri & Mevcut Stoklar (Önerilir)"):
+            st.write("Yapay zekanın toprağın yorgunluğunu ve önceki kimyasal yükünü analiz etmesi için çok değerlidir.")
+            st.text_area("Son 5 Yılın Özeti", placeholder="Örn: 2024'te buğday ekildi, 450kg verim alındı, 20-20-0 gübre kullanıldı. Pas hastalığı görüldü...")
+            st.text_input("Hali hazırda elinizde bulunan ve değerlendirilmesini istediğiniz gübreler (Marka/Formül)")
+
+    # SEKME 4: SULAMA VE EKONOMİ
+    with tab4:
+        st.markdown("#### Sulama ve Altyapı")
+        col4_1, col4_2 = st.columns(2)
+        with col4_1:
+            sulama_tipi = st.selectbox("Sulama Tipi", ["Damlama", "Yağmurlama", "Salma", "Kuru Tarım (Sulama Yok)"])
+            su_kaynagi = st.selectbox("Su Kaynağı", ["Yeraltı (Sondaj)", "Kanal/Baraj", "Akarsu", "Bilinmiyor"])
+            sulama_sikligi = st.selectbox("Sulama Sıklığı", ["İhtiyaca Göre", "Haftada 1", "15 Günde 1", "Ayda 1"])
+        
+        with col4_2:
+            st.markdown("#### 🎯 Ekonomik Tercihler")
+            opt_amaci = st.radio("Yapay Zeka Hangi Parametreyi Önceliklendirsin?",
+                                 ["Maksimum Verim Odaklı",
+                                  "Düşük Maliyet (Bütçe Optimizasyonu)",
+                                  "Yüksek İhracat Kalitesi",
+                                  "Maksimum Su Tasarrufu (Hidrojel Odaklı)",
+                                  "Çevresel Etkiyi Azaltmak (Organik/Regeneratif)"])
+
+    # SEKME 5: ÜRETİM MOTORU
+    with tab5:
+        st.markdown("#### TROIA Agent AI Motoru")
+        st.write("Girdiğiniz fiziksel veriler, laboratuvar sonuçları, tarım döngüsü ve ekonomik öncelikleriniz analiz edilecektir.")
+        
+        if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
+            st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
+            st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
+            
+            # API Çıktı Simülasyonu
+            st.code(f'''
+            [PERİYOT KİMLİĞİ]: {tarla_adi.upper()}
+            [SEÇİLEN MAHSUL]: {urun.upper()} 
+            [OPTİMİZASYON]: {opt_amaci.upper()}
+            =================================================
+            -> ÖNERİLEN KİŞİSELLEŞTİRİLMİŞ REÇETE
+            - Saf Azot (N) İhtiyacı: 18 kg/da (Kademeli Salınım Planı)
+            - Fosfor (P) Takviyesi: Kilitlenme tespit edildiği için %40 azaltıldı.
+            - Hidrojel Entegrasyon Oranı: %3.2 (Seçilen sulama profiline göre)
+            
+            -> ZAMANLAMA VE UYGULAMA
+            1. Ekim Öncesi (Taban): Özel formülasyonun %60'ı ve Hidrojel
+            2. Gelişim Dönemi (Üst): Kalan %40 sıvı formda damlamadan.
+            =================================================
+            ''')
+            
+            st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
+
+# --- DİĞER SAYFALARIN İSKELETLERİ ---
+# --- 📊 2. BİLGİ SİSTEMİ ---
+elif page == "📊 Bilgi Sistemi":
+    st.title("📊 Bilgi Sistemi ve Periyot Günlüğü")
+    st.write("Sistemin karar alırken kullandığı bilimsel referans değerlerini inceleyin veya geçmiş yapay zeka optimizasyon periyotlarını yönetin.")
+    
+    # İki ana işleve ayırıyoruz: Referans ve Geçmiş Loglar
+    tab_bilgi1, tab_bilgi2 = st.tabs(["📚 Zirai Referans Veritabanı", "📝 Periyot Günlüğü (AI Geri Bildirim Döngüsü)"])
+    
+    with tab_bilgi1:
+        st.markdown("#### Mahsul Besin İhtiyaçları ve Tolerans Sınırları")
+        st.write("Bu alanda yapay zeka modülünü kullanmadan da tarımsal literatür değerlerini filtreleyerek inceleyebilirsiniz.")
+        
+        search_query = st.text_input("🔍 Mahsul Ara (Örn: Mısır, Turp, Buğday...)", "")
+        
+        # Referans Veritabanı Simülasyonu
+        referans_data = {
+            "Mahsul": ["Mısır", "Turp", "Buğday", "Pamuk", "Ayçiçeği"],
+            "Optimum pH": ["6.0 - 7.0", "6.5 - 7.0", "6.0 - 7.5", "6.5 - 7.5", "6.0 - 7.2"],
+            "Azot (N) İhtiyacı (kg/da)": [20.0, 10.0, 15.0, 18.0, 12.0],
+            "Fosfor (P) İhtiyacı (kg/da)": [8.0, 6.0, 7.0, 9.0, 6.0],
+            "Potasyum (K) İhtiyacı (kg/da)": [15.0, 12.0, 10.0, 14.0, 10.0],
+            "Tuzluluk Toleransı (dS/m)": ["Orta (1.7)", "Düşük (1.2)", "Yüksek (6.0)", "Çok Yüksek (7.7)", "Orta (1.7)"]
+        }
+        df_ref = pd.DataFrame(referans_data)
+        
+        # Arama Filtresi
+        if search_query:
+            df_ref = df_ref[df_ref["Mahsul"].str.contains(search_query, case=False, na=False)]
+            
+        st.dataframe(df_ref, use_container_width=True, hide_index=True)
+        st.info("💡 Bu veriler FAO ve güncel ziraat literatürü standartlarından derlenmiş olup, yapay zekanın temel referans çerçevesini oluşturur.")
+
+    with tab_bilgi2:
+        st.markdown("#### AI Karar ve Öğrenme Geçmişi (Periyotlar)")
+        st.write("Sistem tarafından daha önce oluşturulan formülasyonlar (periyotlar) ve sahadan girilen hasat/verim geri bildirimleri burada listelenir. Bu veriler modelin kendini eğitmesi için kullanılır.")
+        
+        # Periyot Log Simülasyonu
+        log_data = {
+            "Periyot ID": ["TR-001", "TR-002", "TR-003"],
+            "Tarla Adı": ["Güney Mısır Tarlası", "Kuzey Buğday Parseli", "Sera Yanı Turp"],
+            "Mahsul": ["Mısır", "Buğday", "Turp"],
+            "Oluşturulma Tarihi": ["2026-03-10", "2026-04-05", "2026-05-12"],
+            "Durum": ["Hasat Edildi 🟢", "Gelişim Evresinde 🟡", "Ekim Bekleniyor ⚪"],
+            "Saha Geri Bildirimi": ["%18 Verim Artışı", "Kardeşlenme Sağlıklı", "Veri Bekleniyor"],
+        }
+        df_log = pd.DataFrame(log_data)
+        st.dataframe(df_log, use_container_width=True, hide_index=True)
+        
+        st.button("➕ Manuel Yeni Geri Bildirim Ekle (Modeli Eğit)")
+
+# --- 🗺️ 3. DİNAMİK EKİM TAKVİMİ ---
+elif page == "🗺️ Dinamik Ekim Takvimi":
+    st.title("🗺️ Coğrafi Ekim ve Hasat Takvimi")
+    st.write("Yapay zeka analizine girmeden; seçilen bölge, iklim ve mahsule göre agronomik takvimi dinamik olarak inceleyin.")
+    
+    col_takvim1, col_takvim2 = st.columns([1, 2])
+    
+    with col_takvim1:
+        st.markdown("#### Bölge ve Mahsul Seçimi")
+        secilen_bolge = st.selectbox("Bölge Seçiniz", ["Ege (Aydın/İzmir)", "İç Anadolu", "Çukurova", "Güneydoğu Anadolu"])
+        secilen_mahsul = st.selectbox("Mahsul Seçiniz", ["Mısır", "Buğday", "Turp"])
+        
+        st.markdown("#### Bölgesel Yoğunluk Haritası")
+        # Harita için basit koordinat simülasyonu (Seçilen bölgeye göre nokta atar)
+        if secilen_bolge == "Ege (Aydın/İzmir)":
+            # Ege bölgesi (Aydın/İzmir civarı) koordinatları
+            map_coords = pd.DataFrame(np.random.randn(15, 2) / [30, 30] + [37.84, 27.84], columns=['lat', 'lon'])
+        else:
+            # Diğer bölgeler için varsayılan Türkiye merkezi
+            map_coords = pd.DataFrame(np.random.randn(15, 2) / [15, 15] + [39.0, 35.0], columns=['lat', 'lon'])
+            
+        st.map(map_coords, zoom=6)
+        st.caption(f"Haritadaki noktalar {secilen_bolge} bölgesindeki {secilen_mahsul} uygunluk alanlarını temsil eder.")
+
+    with col_takvim2:
+        st.markdown(f"#### 📅 {secilen_bolge} Bölgesi - {secilen_mahsul} Optimizasyon Takvimi")
+        st.write("Bölgenin meteorolojik geçmişine göre oluşturulmuş en uygun gelişim evreleri:")
+        
+        # Takvim Aşamaları (Görsel ve metinsel hiyerarşi)
+        st.success("🌱 **1. Toprak Hazırlığı ve Taban Gübrelemesi (Mart 1. - 2. Hafta)**")
+        st.write("Toprak işleme tamamlanır. Tohum yatağı hazırlanır. TROIA formülasyonunun taban (katı) kısmı toprağa bu evrede karıştırılır.")
+        
+        st.info("🌾 **2. Ekim Süreci (Mart 3. Hafta - Nisan 1. Hafta)**")
+        st.write("Toprak sıcaklığı stabil hale geldiğinde ekim gerçekleştirilir.")
+        
+        st.warning("💧 **3. Üst Gübreleme ve Hidrojel Aktivasyonu (Mayıs 2. Hafta)**")
+        st.write("Bitki kritik büyüme eşiğine ulaştığında kalan formülasyon uygulanır, hidrojelin su tutma kapasitesini maksimize etmek için ilk yoğun sulama yapılır.")
+        
+        st.error("🚜 **4. Hasat Dönemi (Ağustos 2. Hafta - Eylül 1. Hafta)**")
+        st.write("Nem oranı optimum seviyeye düştüğünde hasat işlemi başlatılır.")
+        
+        st.write("---")
+        # Alt Metrikler
+        col_m1, col_m2, col_m3 = st.columns(3)
+        col_m1.metric(label="Tahmini Büyüme Süresi", value="115 Gün")
+        col_m2.metric(label="Bölgesel Su Kısıtı Riski", value="Orta")
+        col_m3.metric(label="Don Riski Bitişi", value="15 Mart")
