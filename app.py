@@ -314,7 +314,7 @@ elif page == "🔬 Akıllı Formülasyon":
                             st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
                         
                         # Yapay zekadan gelen canlı çıktıyı ekrana yazdırma
-                        st.markdown(response.text)
+                            st.markdown(response.text)
                         
                         except Exception as e:
                             st.error(f"API çağrısı sırasında bir hata oluştu: {e}")
