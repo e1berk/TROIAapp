@@ -307,7 +307,7 @@ elif page == "🔬 Akıllı Formülasyon":
                        # ... prompt tanımından hemen sonraki kısım ...
                         try:
                         # Kodlar burada
-                         model = genai.GenerativeModel('gemini-1.5-flash')
+                        model = genai.GenerativeModel('gemini-1.5-flash')
                         response = model.generate_content(prompt)
                         # Arada başka kodlar girdi veya except bloğu silindi/yanlış girintilendi
                         st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
