@@ -257,50 +257,69 @@ elif page == "🔬 Akıllı Formülasyon":
 
     with tab5:
         st.markdown("#### TROIA Agent AI Motoru")
-        st.write("Girdiğiniz veriler API üzerinden doğrudan Gemini'a iletilecektir.")
+        st.write("Girdiğiniz veriler doğrudan ham HTTP isteği ile Gemini API'ye iletilir.")
         
         if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
             with st.spinner("TROIA Agent AI verileri işliyor..."):
+                import requests
+                
+                # Kullandığın aktif anahtar
+                api_key = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg"
+                
+                # Doğrudan ham endpoint url
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+                
+                prompt = f"""
+                Sen tarımsal agronomist ve akıllı gübreleme sistemleri üzerine uzmanlaşmış TROIA yapay zeka motorusun. 
+                Aşağıda sağlanan tüm parametreleri değerlendirerek sürdürülebilir, bilimsel ve detaylı bir tarla reçetesi oluştur.
+
+                [PERİYOT KİMLİĞİ]: {tarla_adi} (Kayıt Tarihi: {kayit_tarihi})
+                
+                1. TARLA VE FİZİKSEL ÖZELLİKLER:
+                - Alan: {alan} Dekar | Toprak Tipi: {toprak_tipi} | Rakım: {rakim} m
+                - Drenaj: {drenaj} | Eğim: {egim} | Bakı: {baki}
+
+                2. LABORATUVAR TOPRAK ANALİZİ:
+                - pH: {ph} | EC: {ec} | OM(%): {om} | Kireç(%): {kirec} | Tuzluluk: {tuzluluk} dS/m
+                - N: {n_val} | P: {p_val} | K: {k_val} | Ca: {ca_val} | Mg: {mg_val} 
+                - Fe: {fe_val} | Zn: {zn_val} | Mn: {mn_val} | Cu: {cu_val} | B: {b_val}
+
+                3. MAHSUL VE GEÇMİŞ:
+                - Mahsul: {urun} ({cesit}) | Tohum: {tohum_tipi} | Hedef Verim: {hedef_verim} kg/da
+                - Planlanan Ekim/Hasat: {ekim_tarihi} / {hasat_tarihi}
+                - Geçmiş Özet: {gecmis_ozet} | Mevcut Gübreler: {mevcut_gubreler}
+
+                4. SULAMA VE EKONOMİ:
+                - Sulama: {sulama_tipi} | Kaynak: {su_kaynagi} | Sıklık: {sulama_sikligi}
+                - Optimizasyon Önceliği: {opt_amaci}
+
+                Tablo kullanmadan, sadece paragraflar ve listeler kullanarak şu başlıkları analiz et:
+                - Toprak Analizi Açıkları ve Saf İhtiyaç Yönetimi
+                - Dönemsel ve İdeal Gübreleme Formülasyonu
+                - Akıllı Su & Hidrojel Kullanım Tavsiyeleri
+                """
+                
+                headers = {'Content-Type': 'application/json'}
+                payload = {
+                    "contents": [{
+                        "parts": [{"text": prompt}]
+                    }]
+                }
+                
                 try:
-                    prompt = f"""
-                    Sen tarımsal agronomist ve akıllı gübreleme sistemleri üzerine uzmanlaşmış TROIA yapay zeka motorusun. 
-                    Aşağıda sağlanan tüm parametreleri değerlendirerek sürdürülebilir, bilimsel ve detaylı bir tarla reçetesi oluştur.
-
-                    [PERİYOT KİMLİĞİ]: {tarla_adi} (Kayıt Tarihi: {kayit_tarihi})
+                    response = requests.post(url, headers=headers, json=payload)
+                    res_json = response.json()
                     
-                    1. TARLA VE FİZİKSEL ÖZELLİKLER:
-                    - Alan: {alan} Dekar | Toprak Tipi: {toprak_tipi} | Rakım: {rakim} m
-                    - Drenaj: {drenaj} | Eğim: {egim} | Bakı: {baki}
-
-                    2. LABORATUVAR TOPRAK ANALİZİ:
-                    - pH: {ph} | EC: {ec} | OM(%): {om} | Kireç(%): {kirec} | Tuzluluk: {tuzluluk} dS/m
-                    - N: {n_val} | P: {p_val} | K: {k_val} | Ca: {ca_val} | Mg: {mg_val} 
-                    - Fe: {fe_val} | Zn: {zn_val} | Mn: {mn_val} | Cu: {cu_val} | B: {b_val}
-
-                    3. MAHSUL VE GEÇMİŞ:
-                    - Mahsul: {urun} ({cesit}) | Tohum: {tohum_tipi} | Hedef Verim: {hedef_verim} kg/da
-                    - Planlanan Ekim/Hasat: {ekim_tarihi} / {hasat_tarihi}
-                    - Geçmiş Özet: {gecmis_ozet} | Mevcut Gübreler: {mevcut_gubreler}
-
-                    4. SULAMA VE EKONOMİ:
-                    - Sulama: {sulama_tipi} | Kaynak: {su_kaynagi} | Sıklık: {sulama_sikligi}
-                    - Optimizasyon Önceliği: {opt_amaci}
-
-                    Tablo kullanmadan, sadece paragraflar ve listeler kullanarak şu başlıkları analiz et:
-                    - Toprak Analizi Açıkları ve Saf İhtiyaç Yönetimi
-                    - Dönemsel ve İdeal Gübreleme Formülasyonu
-                    - Akıllı Su & Hidrojel Kullanım Tavsiyeleri
-                    """
-
-                    model = genai.GenerativeModel('models/gemini-1.5-flash')
-                    response = model.generate_content(prompt)
-                    
-                    st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
-                    st.markdown(response.text)
-                    st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
-                    
+                    if response.status_code == 200:
+                        # Yanıtı ekrana basma
+                        text_response = res_json['candidates'][0]['content']['parts'][0]['text']
+                        st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
+                        st.markdown(text_response)
+                        st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
+                    else:
+                        st.error(f"API Hatası ({response.status_code}): {res_json.get('error', {}).get('message', 'Bilinmeyen Hata')}")
                 except Exception as e:
-                    st.error(f"API çağrısı sırasında bir hata oluştu. Hata detayı: {e}")
+                    st.error(f"İstek sırasında bir hata oluştu: {e}")
 # --- 📊 2. BİLGİ SİSTEMİ ---
 elif page == "📊 Bilgi Sistemi":
     st.title("📊 Bilgi Sistemi ve Periyot Günlüğü")
