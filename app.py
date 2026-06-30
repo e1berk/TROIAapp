@@ -261,7 +261,7 @@ elif page == "🔬 Akıllı Formülasyon":
         st.write("Girdiğiniz fiziksel veriler, laboratuvar sonuçları, tarım döngüsü ve ekonomik öncelikleriniz analiz edilecektir.")
         
         if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
-            if API_KEY == "BURAYA_GEMINI_API_ANAHTARINIZI_GİRİNİZ" or not API_KEY:
+            if API_KEY == "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg" or not API_KEY:
                 st.error("Lütfen geçerli bir Gemini API Anahtarı giriniz.")
             else:
                 with st.spinner("TROIA Agent AI verileri işliyor, optimizasyon senaryoları hesaplanıyor..."):
@@ -306,7 +306,7 @@ elif page == "🔬 Akıllı Formülasyon":
                         """
 
                         # Gemini Model Çağrısı
-                        model = genai.GenerativeModel('gemini-1.5-flash')
+                        model = genai.GenerativeModel('models/gemini-1.5-flash')
                         response = model.generate_content(prompt)
                         
                         st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
