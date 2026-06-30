@@ -239,12 +239,9 @@ elif page == "🔬 Akıllı Formülasyon":
         st.markdown("#### TROIA Agent AI Motoru")
         st.write("Girdiğiniz veriler doğrudan ham HTTP isteği ile Gemini API'ye iletilir.")
         
-      with tab5:
-        st.markdown("#### TROIA Agent AI Motoru")
-        st.write("Girdiğiniz veriler doğrudan ham HTTP isteği ile Gemini API'ye iletilir.")
         
         if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
-            with st.spinner("TROIA Agent AI verileri işliyor..."):
+    with st.spinner("TROIA Agent AI verileri işliyor..."):
                 
                 # Model endpoint'i
                 url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
