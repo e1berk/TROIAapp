@@ -255,7 +255,7 @@ elif page == "🔬 Akıllı Formülasyon":
                                   "Maksimum Su Tasarrufu (Hidrojel Odaklı)",
                                   "Çevresel Etkiyi Azaltmak (Organik/Regeneratif)"])
 
-    with tab5:
+   with tab5:
         st.markdown("#### TROIA Agent AI Motoru")
         st.write("Girdiğiniz veriler doğrudan ham HTTP isteği ile Gemini API'ye iletilir.")
         
@@ -266,8 +266,8 @@ elif page == "🔬 Akıllı Formülasyon":
                 # Kullandığın aktif anahtar
                 api_key = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg"
                 
-                # Doğrudan ham endpoint url
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+                # URL'den ?key= parametresini tamamen kaldırdık, saf endpoint'e istek atıyoruz
+                url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
                 
                 prompt = f"""
                 Sen tarımsal agronomist ve akıllı gübreleme sistemleri üzerine uzmanlaşmış TROIA yapay zeka motorusun. 
@@ -299,7 +299,12 @@ elif page == "🔬 Akıllı Formülasyon":
                 - Akıllı Su & Hidrojel Kullanım Tavsiyeleri
                 """
                 
-                headers = {'Content-Type': 'application/json'}
+                # API Anahtarını hem x-goog-api-key hem de Authorization başlığına gömüyoruz
+                headers = {
+                    'Content-Type': 'application/json',
+                    'x-goog-api-key': api_key
+                }
+                
                 payload = {
                     "contents": [{
                         "parts": [{"text": prompt}]
@@ -311,7 +316,6 @@ elif page == "🔬 Akıllı Formülasyon":
                     res_json = response.json()
                     
                     if response.status_code == 200:
-                        # Yanıtı ekrana basma
                         text_response = res_json['candidates'][0]['content']['parts'][0]['text']
                         st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
                         st.markdown(text_response)
