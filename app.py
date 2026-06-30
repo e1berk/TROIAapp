@@ -239,9 +239,25 @@ elif page == "🔬 Akıllı Formülasyon":
         st.markdown("#### TROIA Agent AI Motoru")
         st.write("Girdiğiniz veriler doğrudan ham HTTP isteği ile Gemini API'ye iletilir.")
         
-        if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
-            with st.spinner("TROIA Agent AI verileri işliyor..."):
-                url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+        # --- 🚀 5. Analiz Sekmesindeki Değişiklik ---
+if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
+    with st.spinner("TROIA Agent AI verileri işliyor..."):
+        
+        # Güncel ve desteklenen model endpoint'i
+        url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+        
+        # ... prompt tanımı aynı kalacak ...
+        
+        headers = {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': api_key_to_use
+        }
+        
+        payload = {
+            "contents": [{
+                "parts": [{"text": prompt}]
+            }]
+        }
                 
                 prompt = f"""
                 Sen tarımsal agronomist ve akıllı gübreleme sistemleri üzerine uzmanlaşmış TROIA yapay zeka motorusun. 
