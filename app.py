@@ -2,6 +2,12 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from datetime import date
+import json                     
+import google.generativeai as genai
+
+# API Yapılandırması (st.secrets kullanımı tavsiye edilir, buraya geçerli API anahtarınızı giriniz)
+API_KEY = "BURAYA_GEMINI_API_ANAHTARINIZI_GİRİNİZ"
+genai.configure(api_key=API_KEY)
 
 # Sayfa Yapılandırması
 st.set_page_config(page_title="TROIA | Üretken Yapay Zeka ile Tarlaya Özel Gübre ve Hidrojel Formülasyonu", layout="wide")
@@ -62,14 +68,15 @@ st.markdown("""
         color: #40916C !important;
     }
 
-    /* Tüm input etiketleri ve radio metinleri için genel renk düzeltme */
-    label, div[data-testid="stRadio"] label, p, .stRadio > div > label {
+    /* Tüm input etiketleri, p elementleri ve radio buton seçeneklerinin görünmeme sorununu çözen CSS */
+    label, p, .stRadio > div, [data-testid="stRadio"] label, [data-testid="stRadio"] p {
         color: #212529 !important;
         font-weight: 500 !important;
     }
     </style>
     """, unsafe_allow_html=True)
-# Sol Menü (Sidebar Navigasyon) - Temizlendi ve Eşleştirildi
+
+# Sol Menü (Sidebar Navigasyon)
 st.sidebar.title("TROIA Platform")
 page = st.sidebar.radio("Modül Seçiniz:", ["🏠 TROIA Nedir?", "🔬 Akıllı Formülasyon", "📊 Bilgi Sistemi", "🗺️ Dinamik Ekim Takvimi"])
 
@@ -227,8 +234,8 @@ elif page == "🔬 Akıllı Formülasyon":
 
         with st.expander("🕰️ Geçmiş Tarım Verileri & Mevcut Stoklar (Önerilir)"):
             st.write("Yapay zekanın toprağın yorgunluğunu ve önceki kimyasal yükünü analiz etmesi için çok değerlidir.")
-            st.text_area("Son 5 Yılın Özeti", placeholder="Örn: 2024'te buğday ekildi, 450kg verim alındı, 20-20-0 gübre kullanıldı. Pas hastalığı görüldü...")
-            st.text_input("Hali hazırda elinizde bulunan ve değerlendirilmesini istediğiniz gübreler (Marka/Formül)")
+            gecmis_ozet = st.text_area("Son 5 Yılın Özeti", placeholder="Örn: 2024'te buğday ekildi, 450kg verim alındı, 20-20-0 gübre kullanıldı. Pas hastalığı görüldü...")
+            mevcut_gubreler = st.text_input("Hali hazırda elinizde bulunan ve değerlendirilmesini istediğiniz gübreler (Marka/Formül)")
 
     # SEKME 4: SULAMA VE EKONOMİ
     with tab4:
@@ -248,44 +255,70 @@ elif page == "🔬 Akıllı Formülasyon":
                                   "Maksimum Su Tasarrufu (Hidrojel Odaklı)",
                                   "Çevresel Etkiyi Azaltmak (Organik/Regeneratif)"])
 
-    # SEKME 5: ÜRETİM MOTORU
+    # SEKME 5: ÜRETİM MOTORU (API ENTEGRASYONU)
     with tab5:
         st.markdown("#### TROIA Agent AI Motoru")
         st.write("Girdiğiniz fiziksel veriler, laboratuvar sonuçları, tarım döngüsü ve ekonomik öncelikleriniz analiz edilecektir.")
         
         if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
-            st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
-            st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
-            
-            st.code(f'''
-            [PERİYOT KİMLİĞİ]: {tarla_adi.upper()}
-            [SEÇİLEN MAHSUL]: {urun.upper()} 
-            [OPTİMİZASYON]: {opt_amaci.upper()}
-            ================================================= 
-    Mısır bitkisinin 1400 kg/dekar gibi yüksek bir hedef verime ulaşabilmesi için büyüme sezonu boyunca ihtiyaç duyduğu saf besin maddeleri, tarlanızın toprak analiziyle karşılaştırılarak tamamen sıfırdan ve en verimli şekilde planlanmıştır.
+            if API_KEY == "BURAYA_GEMINI_API_ANAHTARINIZI_GİRİNİZ" or not API_KEY:
+                st.error("Lütfen geçerli bir Gemini API Anahtarı giriniz.")
+            else:
+                with st.spinner("TROIA Agent AI verileri işliyor, optimizasyon senaryoları hesaplanıyor..."):
+                    try:
+                        # Tüm sekmelerdeki değişkenleri içeren dinamik prompt yapısı
+                        prompt = f"""
+                        Sen tarımsal agronomist ve akıllı gübreleme sistemleri üzerine uzmanlaşmış TROIA yapay zeka motorusun. 
+                        Aşağıda sağlanan tüm parametreleri değerlendirerek sürdürülebilir, bilimsel ve detaylı bir tarla reçetesi oluştur.
 
-Jüri sunumunda veya raporlamada zorluk yaşamamanız için tüm formülasyonu tablo kullanmadan, doğrudan kopyalayabileceğiniz paragraflar ve listeler halinde hazırladım.
+                        [PERİYOT KİMLİĞİ]: {tarla_adi} (Kayıt Tarihi: {kayit_tarihi})
+                        
+                        1. TARLA VE FİZİKSEL ÖZELLİKLER:
+                        - Alan: {alan} Dekar
+                        - Toprak Tipi: {toprak_tipi}
+                        - Rakım: {rakim} metre
+                        - Drenaj Durumu: {drenaj}
+                        - Eğim Durumu: {egim}
+                        - Bakı Yönü: {baki}
 
-📋 1. Toprak Analizi Açıkları ve Saf İhtiyaç Yönetimi
-Modern mısır tarımında yüksek verim alabilmek için bitkinin topraktan kaldıracağı besin miktarı ile toprağın mevcut potansiyelinin doğru analiz edilmesi gerekir. Tarlanızdaki 80 ppm azot ve 120 ppm potasyum seviyeleri, 1400 kg hedefi için sınırda veya yetersizdir. Ayrıca mısırda koçan dizilimini ve dane sayısını doğrudan etkileyen çinko elementi de toprakta düşük seviyededir.
+                        2. LABORATUVAR TOPRAK ANALİZİ:
+                        - pH: {ph} | EC: {ec} | Organik Madde (%): {om} | Kireç (%): {kirec} | Tuzluluk: {tuzluluk} dS/m
+                        - Makro Elementler: Azot (N): {n_val} | Fosfor (P): {p_val} | Potasyum (K): {k_val}
+                        - Sekonder & Mikro Elementler: Kalsiyum (Ca): {ca_val} | Magnezyum (Mg): {mg_val} | Demir (Fe): {fe_val} | Çinko (Zn): {zn_val} | Mangan (Mn): {mn_val} | Bakır (Cu): {cu_val} | Bor (B): {b_val}
 
-Troia AI, bu eksikleri kapatmak için en yüksek yarayışlılığa sahip saf element ihtiyaçlarını şu stratejiyle belirlemiştir: Dekar başına net 26 kg saf Azot (N), kök mimarisi için 10 kg saf Fosfor (P2O5) ve tane dolumu için 18 kg saf Potasyum (K2O) toprağa ilave edilmelidir. Tınlı toprak yapısında bu elementlerin yıkanıp kaybolmaması için besleme programı bitkinin büyüme evrelerine göre bölünmüştür.
+                        3. MAHSUL VE GEÇMİŞ EKİM BİLGİLERİ:
+                        - Hedeflenen Mahsul: {urun} (Çeşit: {cesit})
+                        - Tohum Tipi: {tohum_tipi}
+                        - Hedeflenen Verim: {hedef_verim} kg/dekar
+                        - Planlanan Ekim / Hasat: {ekim_tarihi} / {hasat_tarihi}
+                        - Geçmiş Tarım Özeti: {gecmis_ozet}
+                        - Eldeki Mevcut Gübreler: {mevcut_gubreler}
 
-🌾 2. Dönemsel ve İdeal Gübreleme Formülasyonu
-Taban Gübrelemesi (Ekimle Birlikte)
-Mısır bitkisinin topraktan ilk çıkış anında güçlü bir kök sistemi kurması ve toprakta orta seviyede bulunan fosfor açığını tamamen kapatması için başlangıçta çinkolu kompoze gübreler tercih edilmiştir. Bu evrede dekar başına 50 kg 20-20-0 + Zn (Çinkolu) gübresi uygulanacaktır. 50 dekarlık toplam alan için tedarik edilmesi gereken miktar 2500 kg'dır. Bu uygulama ile toprağa ilk aşamada 10 kg saf azot, 10 kg saf fosfor ve mısırın koçan yapısını garantiye alacak çinko elementi kazandırılmış olur.
+                        4. SULAMA VE EKONOMİK ÖNCELİKLER:
+                        - Sulama Tipi: {sulama_tipi} | Kaynak: {su_kaynagi} | Sıklık: {sulama_sikligi}
+                        - Optimizasyon Önceliği: {opt_amaci}
 
-I. Üst Gübreleme (Gelişme Dönemi / 4-6 Yaprak Aşaması)
-Bitkinin vejetatif olarak boya kalktığı, gövde kalınlığını oluşturduğu ve yaprak yüzeyini hızla büyüttüğü bu ilk gelişme döneminde dönüşümü hızlı ve etkili bir saf azot kaynağı gerekir. Tınlı topraklarda bu evre için en verimli kaynak Üre (%46 N) gübresidir. Dekar başına 15 kg Üre uygulanması planlanmıştır. 50 dekarlık toplam arazi için 750 kg Üre gübresi gerekir ve bu sayede bitkiye 6.9 kg saf azot daha sağlanmış olur.
+                        Lütfen jüri veya üretici raporlamasında doğrudan kullanılabilecek, tablo içermeyen, paragraflar ve listeler şeklinde net bir analiz sun. 
+                        Raporda şunlar yer almalıdır:
+                        - Toprak Analizi Açıkları ve Saf İhtiyaç Yönetimi (Optimizasyon amacına uygun yorumlar dahil)
+                        - Dönemsel ve İdeal Gübreleme Formülasyonu (Taban, Gelişme dönemi, püskül/tane dolum dönemleri için ticari gübre isimleri, kg hesapları ve saf madde dengeleriyle)
+                        - Sulama altyapısına ve optimizasyon amacına uygun Akıllı Su & Hidrojel Kullanım Tavsiyeleri
+                        """
 
-II. Üst Gübreleme (Hızlı Büyüme ve Püskül Öncesi / 8-12 Yaprak Aşaması)
-Mısırın koçan taslağını satırlara döktüğü ve boylanmasının tepe noktasına ulaştığı bu kritik evrede bitki azotu çok hızlı tüketir. Toprağı stabilize etmek ve bitkinin ani azot ihtiyacını doğrudan karşılamak adına bu evrede Amonyum Nitrat (%33 N) tercih edilmiştir. Dekar başına 22 kg uygulanacak olan bu gübre, 50 dekar için toplamda 1100 kg'a tekabül eder. Bu sayede toprağa 7.26 kg saf azot daha ilave edilir.
-
-III. Üst Gübreleme (Damlama ile Tane Dolum Dönemi / Püskül Çıkarma Sonrası)
-Mısırın yeşil aksam büyümesini durdurup tüm enerjisini dane ağırlığına, nişasta birikimine ve koçan doldurmaya harcadığı son evredir. Bu dönemde azot miktarı minimuma indirilirken, potasyum zirveye çıkarılmalıdır. Sistem bu amaçla yüksek çözünürlüklü Potasyum Nitrat (%13-0-46) gübresini seçmiştir. Dekar başına 40 kg uygulanacak bu formülasyon, 50 dekar için toplam 2000 kg tedarik gerektirir. Bu son dokunuşla bitkiye 5.2 kg saf azot ve tane ağırlığını doğrudan artıracak olan 18.4 kg saf potasyum sağlanmış olur.
-            ''')
-            
-            st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
+                        # Gemini Model Çağrısı
+                        model = genai.GenerativeModel('gemini-1.5-flash')
+                        response = model.generate_content(prompt)
+                        
+                        st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
+                        st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
+                        
+                        # Yapay zekadan gelen canlı çıktıyı ekrana yazdırma
+                        st.markdown(response.text)
+                        
+                    except Exception as e:
+                        st.error(f"API çağrısı sırasında bir hata oluştu: {e}")
+                
+                st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
 
 # --- 📊 2. BİLGİ SİSTEMİ ---
 elif page == "📊 Bilgi Sistemi":
