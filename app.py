@@ -6,7 +6,7 @@ import json
 import google.generativeai as genai
 
 # API Yapılandırması (st.secrets kullanımı tavsiye edilir, buraya geçerli API anahtarınızı giriniz)
-API_KEY = "BURAYA_GEMINI_API_ANAHTARINIZI_GİRİNİZ"
+API_KEY = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg"
 genai.configure(api_key=API_KEY)
 
 # Sayfa Yapılandırması
