@@ -319,7 +319,7 @@ elif page == "🔬 Akıllı Formülasyon":
                         except Exception as e:
                             st.error(f"API çağrısı sırasında bir hata oluştu: {e}")
                 
-                st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
+                            st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
 
 # --- 📊 2. BİLGİ SİSTEMİ ---
 elif page == "📊 Bilgi Sistemi":
