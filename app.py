@@ -307,17 +307,17 @@ elif page == "🔬 Akıllı Formülasyon":
                        # ... prompt tanımından hemen sonraki kısım ...
                         try:
                         # Kodlar burada
-                        model = genai.GenerativeModel('gemini-1.5-flash')
-                        response = model.generate_content(prompt)
+                            model = genai.GenerativeModel('gemini-1.5-flash')
+                            response = model.generate_content(prompt)
                         # Arada başka kodlar girdi veya except bloğu silindi/yanlış girintilendi
-                        st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
-                        st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
+                            st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
+                            st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
                         
                         # Yapay zekadan gelen canlı çıktıyı ekrana yazdırma
                         st.markdown(response.text)
                         
                         except Exception as e:
-                        st.error(f"API çağrısı sırasında bir hata oluştu: {e}")
+                            st.error(f"API çağrısı sırasında bir hata oluştu: {e}")
                 
                 st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
 
