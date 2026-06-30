@@ -50,28 +50,6 @@ st.markdown("""
         border-radius: 5px;
     }
 
-    /* Sekme stilleri */
-    button[data-baseweb="tab"] {
-        color: #2D6A4F !important;
-        font-weight: 600 !important;
-    }
-    
-    div[data-baseweb="tab-list"] button[aria-selected="true"] {
-        color: #1B4332 !important;
-        border-bottom: 2px solid #2D6A4F !important;
-    }
-    
-    button[data-baseweb="tab"]:hover {
-        color: #40916C !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-# Sol Menü (Sidebar Navigasyon)
-st.sidebar.title("TROIA Platform")
-page = st.sidebar.radio("Modül Seçiniz:", 
-                 st.markdown("""
-    <style>
     /* Sekme metinlerinin genel rengi */
     button[data-baseweb="tab"] {
         color: #2D6A4F !important;
@@ -89,8 +67,11 @@ page = st.sidebar.radio("Modül Seçiniz:",
         color: #40916C !important;
     }
     </style>
-    """, unsafe_allow_html=True)   
-    ["🏠 TROIA Nedir?", "🔬 Akıllı Formülasyon", "📊 Bilgi Sistem", "🗺️ Dinamik Ekim Takvimi"])
+    """, unsafe_allow_html=True)
+
+# Sol Menü (Sidebar Navigasyon) - Temizlendi ve Eşleştirildi
+st.sidebar.title("TROIA Platform")
+page = st.sidebar.radio("Modül Seçiniz:", ["🏠 TROIA Nedir?", "🔬 Akıllı Formülasyon", "📊 Bilgi Sistemi", "🗺️ Dinamik Ekim Takvimi"])
 
 # --- 🏠 ANA SAYFA (TROIA NEDİR?) ---
 if page == "🏠 TROIA Nedir?":
@@ -150,7 +131,7 @@ if page == "🏠 TROIA Nedir?":
         st.caption("Ekip Lideri, İş ve Yazılım Geliştirme")
     with col_team2:
         st.markdown("**Elif Çiçek Akkor**")
-        st.caption("Tarıms Faaliyetleri, Ar-Ge")
+        st.caption("Tarımsal Faaliyetleri, Ar-Ge")
     with col_team3:
         st.markdown("**Liva Erkul**")
         st.caption("Danışman, Bilimsel Temel - Boğaziçi Moleküler Biyoloji ve Genetik")
@@ -174,7 +155,7 @@ elif page == "🔬 Akıllı Formülasyon":
             
     st.write("---")
 
-    # Veri Giriş Sekmeleri (Kullanıcıyı yormamak için bölündü)
+    # Veri Giriş Sekmeleri
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "📍 1. Tarla", 
         "🧪 2. Toprak Analizi", 
@@ -202,8 +183,6 @@ elif page == "🔬 Akıllı Formülasyon":
     # SEKME 2: TOPRAK ANALİZİ
     with tab2:
         st.markdown("#### Laboratuvar Toprak Analizi")
-        
-        # AI PDF Okuma Simülasyonu
         st.markdown("Değerleri manuel girmek yerine laboratuvar PDF/JPG dosyanızı yükleyerek tablonun **yapay zeka tarafından otomatik doldurulmasını** sağlayabilirsiniz.")
         uploaded_file = st.file_uploader("Laboratuvar Sonuç Raporu Yükle", type=['pdf', 'jpg', 'png'])
         if uploaded_file is not None:
@@ -246,7 +225,6 @@ elif page == "🔬 Akıllı Formülasyon":
             ekim_tarihi = st.date_input("Planlanan Ekim Tarihi")
             hasat_tarihi = st.date_input("Planlanan Hasat Tarihi")
 
-        # Geçmiş Veriler (Expander ile gizlenerek UX temiz tutuldu)
         with st.expander("🕰️ Geçmiş Tarım Verileri & Mevcut Stoklar (Önerilir)"):
             st.write("Yapay zekanın toprağın yorgunluğunu ve önceki kimyasal yükünü analiz etmesi için çok değerlidir.")
             st.text_area("Son 5 Yılın Özeti", placeholder="Örn: 2024'te buğday ekildi, 450kg verim alındı, 20-20-0 gübre kullanıldı. Pas hastalığı görüldü...")
@@ -279,7 +257,6 @@ elif page == "🔬 Akıllı Formülasyon":
             st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
             st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
             
-            # API Çıktı Simülasyonu
             st.code(f'''
             [PERİYOT KİMLİĞİ]: {tarla_adi.upper()}
             [SEÇİLEN MAHSUL]: {urun.upper()} 
@@ -298,13 +275,11 @@ elif page == "🔬 Akıllı Formülasyon":
             
             st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
 
-# --- DİĞER SAYFALARIN İSKELETLERİ ---
 # --- 📊 2. BİLGİ SİSTEMİ ---
 elif page == "📊 Bilgi Sistemi":
     st.title("📊 Bilgi Sistemi ve Periyot Günlüğü")
     st.write("Sistemin karar alırken kullandığı bilimsel referans değerlerini inceleyin veya geçmiş yapay zeka optimizasyon periyotlarını yönetin.")
     
-    # İki ana işleve ayırıyoruz: Referans ve Geçmiş Loglar
     tab_bilgi1, tab_bilgi2 = st.tabs(["📚 Zirai Referans Veritabanı", "📝 Periyot Günlüğü (AI Geri Bildirim Döngüsü)"])
     
     with tab_bilgi1:
@@ -313,7 +288,6 @@ elif page == "📊 Bilgi Sistemi":
         
         search_query = st.text_input("🔍 Mahsul Ara (Örn: Mısır, Turp, Buğday...)", "")
         
-        # Referans Veritabanı Simülasyonu
         referans_data = {
             "Mahsul": ["Mısır", "Turp", "Buğday", "Pamuk", "Ayçiçeği"],
             "Optimum pH": ["6.0 - 7.0", "6.5 - 7.0", "6.0 - 7.5", "6.5 - 7.5", "6.0 - 7.2"],
@@ -324,7 +298,6 @@ elif page == "📊 Bilgi Sistemi":
         }
         df_ref = pd.DataFrame(referans_data)
         
-        # Arama Filtresi
         if search_query:
             df_ref = df_ref[df_ref["Mahsul"].str.contains(search_query, case=False, na=False)]
             
@@ -335,7 +308,6 @@ elif page == "📊 Bilgi Sistemi":
         st.markdown("#### AI Karar ve Öğrenme Geçmişi (Periyotlar)")
         st.write("Sistem tarafından daha önce oluşturulan formülasyonlar (periyotlar) ve sahadan girilen hasat/verim geri bildirimleri burada listelenir. Bu veriler modelin kendini eğitmesi için kullanılır.")
         
-        # Periyot Log Simülasyonu
         log_data = {
             "Periyot ID": ["TR-001", "TR-002", "TR-003"],
             "Tarla Adı": ["Güney Mısır Tarlası", "Kuzey Buğday Parseli", "Sera Yanı Turp"],
@@ -352,7 +324,7 @@ elif page == "📊 Bilgi Sistemi":
 # --- 🗺️ 3. DİNAMİK EKİM TAKVİMİ ---
 elif page == "🗺️ Dinamik Ekim Takvimi":
     st.title("🗺️ Coğrafi Ekim ve Hasat Takvimi")
-    st.write("Yapay zeka analizine girmeden; seçilen bölge, iklim ve mahsule göre agronomik takvimi dinamik olarak inceleyin.")
+    st.write("Yapay zeka analizine girmeden; seçilen bölge, iklim and mahsule göre agronomik takvimi dinamik olarak inceleyin.")
     
     col_takvim1, col_takvim2 = st.columns([1, 2])
     
@@ -362,12 +334,9 @@ elif page == "🗺️ Dinamik Ekim Takvimi":
         secilen_mahsul = st.selectbox("Mahsul Seçiniz", ["Mısır", "Buğday", "Turp"])
         
         st.markdown("#### Bölgesel Yoğunluk Haritası")
-        # Harita için basit koordinat simülasyonu (Seçilen bölgeye göre nokta atar)
         if secilen_bolge == "Ege (Aydın/İzmir)":
-            # Ege bölgesi (Aydın/İzmir civarı) koordinatları
             map_coords = pd.DataFrame(np.random.randn(15, 2) / [30, 30] + [37.84, 27.84], columns=['lat', 'lon'])
         else:
-            # Diğer bölgeler için varsayılan Türkiye merkezi
             map_coords = pd.DataFrame(np.random.randn(15, 2) / [15, 15] + [39.0, 35.0], columns=['lat', 'lon'])
             
         st.map(map_coords, zoom=6)
@@ -377,7 +346,6 @@ elif page == "🗺️ Dinamik Ekim Takvimi":
         st.markdown(f"#### 📅 {secilen_bolge} Bölgesi - {secilen_mahsul} Optimizasyon Takvimi")
         st.write("Bölgenin meteorolojik geçmişine göre oluşturulmuş en uygun gelişim evreleri:")
         
-        # Takvim Aşamaları (Görsel ve metinsel hiyerarşi)
         st.success("🌱 **1. Toprak Hazırlığı ve Taban Gübrelemesi (Mart 1. - 2. Hafta)**")
         st.write("Toprak işleme tamamlanır. Tohum yatağı hazırlanır. TROIA formülasyonunun taban (katı) kısmı toprağa bu evrede karıştırılır.")
         
@@ -391,7 +359,6 @@ elif page == "🗺️ Dinamik Ekim Takvimi":
         st.write("Nem oranı optimum seviyeye düştüğünde hasat işlemi başlatılır.")
         
         st.write("---")
-        # Alt Metrikler
         col_m1, col_m2, col_m3 = st.columns(3)
         col_m1.metric(label="Tahmini Büyüme Süresi", value="115 Gün")
         col_m2.metric(label="Bölgesel Su Kısıtı Riski", value="Orta")
