@@ -5,42 +5,34 @@ from datetime import date
 import json                     
 import google.generativeai as genai
 from google.generativeai.types import GenerationConfig
-
-# --- API YAPILANDIRMASI (KESİN ÇÖZÜM) ---
-if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"] != "":
-    api_key_to_use = st.secrets["GEMINI_API_KEY"]
-else:
-    # Aktif olarak kullandığın güncel anahtarın
-    api_key_to_use = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg"
-
-# Kütüphanenin OAuth hatasına düşmesini engellemek için anahtarı 
-# hem çevre değişkenine hem de doğrudan istemci katmanına zorla enjekte ediyoruz.
 import os
+import requests
+
+# --- API YAPILANDIRMASI ---
+if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"] != "":
+    api_key_to_use = st.secrets["GEMINI_API_KEY"].strip()
+else:
+    # Görünmez karakterlerden arındırılmış saf anahtar stringi
+    api_key_to_use = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg".strip()
+
 os.environ["GEMINI_API_KEY"] = api_key_to_use
-
-# Klasik configure yerine doğrudan alt istemciyi tetikliyoruz
 genai.configure(client_options={"api_key": api_key_to_use})
-# ----------------------------------------
 
-# Sayfa Yapılandırması buradan itibaren aynen devam ediyor...
+# Sayfa Yapılandırması
 st.set_page_config(page_title="TROIA | Üretken Yapay Zeka ile Tarlaya Özel Gübre ve Hidrojel Formülasyonu", layout="wide")
 
 st.markdown("""
     <style>
-    /* Ana Arka Planı Temizle */
     .stApp {
         background-color: #F8F9FA;
         color: #212529;
     }
-    /* Sidebar'ı biraz daha koyu gri yaparak kontrast oluştur */
     .sidebar .sidebar-content {
         background-color: #E9ECEF;
     }
-    /* Başlıkları Kurumsal Koyu Yeşil Yap */
     h1, h2, h3, h4, h5 {
         color: #1B4332 !important;
     }
-    /* Butonları daha dikkat çekici ve okunaklı yap */
     .stButton>button {
         background-color: #2D6A4F;
         color: #FFFFFF;
@@ -52,7 +44,6 @@ st.markdown("""
         background-color: #40916C;
         color: #FFFFFF;
     }
-    /* Tablo ve İstatistik Kutuları */
     .highlight-box {
         background-color: #FFFFFF;
         padding: 20px;
@@ -61,14 +52,11 @@ st.markdown("""
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         margin-bottom: 20px;
     }
-    /* Tabloların beyaz zemin üzerinde net görünmesi için */
     [data-testid="stDataFrame"] {
         background-color: #FFFFFF;
         padding: 10px;
         border-radius: 5px;
     }
-
-    /* Sekme metinlerinin genel rengi */
     button[data-baseweb="tab"] {
         color: #2D6A4F !important;
         font-weight: 600 !important;
@@ -80,8 +68,6 @@ st.markdown("""
     button[data-baseweb="tab"]:hover {
         color: #40916C !important;
     }
-
-    /* Tüm input etiketleri, p elementleri ve radio buton seçeneklerinin görünmeme sorununu çözen CSS */
     label, p, .stRadio > div, [data-testid="stRadio"] label, [data-testid="stRadio"] p {
         color: #212529 !important;
         font-weight: 500 !important;
@@ -89,11 +75,11 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Sol Menü (Sidebar Navigasyon)
+# Sol Menü
 st.sidebar.title("TROIA Platform")
 page = st.sidebar.radio("Modül Seçiniz:", ["🏠 TROIA Nedir?", "🔬 Akıllı Formülasyon", "📊 Bilgi Sistemi", "🗺️ Dinamik Ekim Takvimi"])
 
-# --- 🏠 ANA SAYFA (TROIA NEDİR?) ---
+# --- 🏠 ANA SAYFA ---
 if page == "🏠 TROIA Nedir?":
     st.title("TROIA")
     st.subheader("Ezbere Değil, İhtiyaca Göre Gübre.")
@@ -160,10 +146,9 @@ if page == "🏠 TROIA Nedir?":
     st.caption("📧 İletişim: cinaregeberk00@gmail.com | 📍 Ortaklar - Aydın / İstanbul")
 
 # --- 🔬 1. AKILLI FORMÜLASYON ---
-# --- 🔬 1. AKILLI FORMÜLASYON ---
 elif page == "🔬 Akıllı Formülasyon":
     st.title("🔬 Akıllı Formülasyon Modülü")
-    st.write("Tarlanıza özel biyokimyasal reçeteyi oluşturmak için verilerinizi adım adım girin. İlgili olmayan alanları boş bırakabilirsiniz, eksik veriler AI tarafından bölgesel ortalamalarla tamamlanacaktır.")
+    st.write("Tarlanıza özel biyokimyasal reçeteyi oluşturmak için verilerinizi adım adım girin.")
     
     with st.container():
         st.markdown("### 📌 Formülasyon Kaydı (Periyot)")
@@ -198,7 +183,6 @@ elif page == "🔬 Akıllı Formülasyon":
 
     with tab2:
         st.markdown("#### Laboratuvar Toprak Analizi")
-        st.markdown("##### Değer Kontrol / Manuel Giriş Alanı")
         col2_1, col2_2, col2_3 = st.columns(3)
         with col2_1:
             st.markdown("**Temel Değerler**")
@@ -245,7 +229,6 @@ elif page == "🔬 Akıllı Formülasyon":
             sulama_tipi = st.selectbox("Sulama Tipi", ["Damlama", "Yağmurlama", "Salma", "Kuru Tarım (Sulama Yok)"])
             su_kaynagi = st.selectbox("Su Kaynağı", ["Yeraltı (Sondaj)", "Kanal/Baraj", "Akarsu", "Bilinmiyor"])
             sulama_sikligi = st.selectbox("Sulama Sıklığı", ["İhtiyaca Göre", "Haftada 1", "15 Günde 1", "Ayda 1"])
-        
         with col4_2:
             st.markdown("#### 🎯 Ekonomik Tercihler")
             opt_amaci = st.radio("Yapay Zeka Hangi Parametreyi Önceliklendirsin?",
@@ -261,9 +244,6 @@ elif page == "🔬 Akıllı Formülasyon":
         
         if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
             with st.spinner("TROIA Agent AI verileri işliyor..."):
-                import requests
-                
-                api_key = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg"
                 url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
                 
                 prompt = f"""
@@ -298,7 +278,7 @@ elif page == "🔬 Akıllı Formülasyon":
                 
                 headers = {
                     'Content-Type': 'application/json',
-                    'x-goog-api-key': api_key
+                    'x-goog-api-key': api_key_to_use
                 }
                 
                 payload = {
@@ -320,18 +300,17 @@ elif page == "🔬 Akıllı Formülasyon":
                         st.error(f"API Hatası ({response.status_code}): {res_json.get('error', {}).get('message', 'Bilinmeyen Hata')}")
                 except Exception as e:
                     st.error(f"İstek sırasında bir hata oluştu: {e}")
+
 # --- 📊 2. BİLGİ SİSTEMİ ---
 elif page == "📊 Bilgi Sistemi":
     st.title("📊 Bilgi Sistemi ve Periyot Günlüğü")
-    st.write("Sistemin karar alırken kullandığı bilimsel referans değerlerini inceleyin veya geçmiş yapay zeka optimizasyon periyotlarını yönetin.")
+    st.write("Sistemin karar alırken kullandığı bilimsel referans değerlerini inceleyin.")
     
     tab_bilgi1, tab_bilgi2 = st.tabs(["📚 Zirai Referans Veritabanı", "📝 Periyot Günlüğü (AI Geri Bildirim Döngüsü)"])
     
     with tab_bilgi1:
         st.markdown("#### Mahsul Besin İhtiyaçları ve Tolerans Sınırları")
-        st.write("Bu alanda yapay zeka modülünü kullanmadan da tarımsal literatür değerlerini filtreleyerek inceleyebilirsiniz.")
-        
-        search_query = st.text_input("🔍 Mahsul Ara (Örn: Mısır, Turp, Buğday...)", "")
+        search_query = st.text_input("🔍 Mahsul Ara (Örn: Mısır, Turp...)", "")
         
         referans_data = {
             "Mahsul": ["Mısır", "Turp", "Buğday", "Pamuk", "Ayçiçeği"],
@@ -347,12 +326,9 @@ elif page == "📊 Bilgi Sistemi":
             df_ref = df_ref[df_ref["Mahsul"].str.contains(search_query, case=False, na=False)]
             
         st.dataframe(df_ref, use_container_width=True, hide_index=True)
-        st.info("💡 Bu veriler FAO ve güncel ziraat literatürü standartlarından derlenmiş olup, yapay zekanın temel referans çerçevesini oluşturur.")
 
     with tab_bilgi2:
         st.markdown("#### AI Karar ve Öğrenme Geçmişi (Periyotlar)")
-        st.write("Sistem tarafından daha önce oluşturulan formülasyonlar (periyotlar) ve sahadan girilen hasat/verim geri bildirimleri burada listelenir. Bu veriler modelin kendini eğitmesi için kullanılır.")
-        
         log_data = {
             "Periyot ID": ["TR-001", "TR-002", "TR-003"],
             "Tarla Adı": ["Güney Mısır Tarlası", "Kuzey Buğday Parseli", "Sera Yanı Turp"],
@@ -363,45 +339,30 @@ elif page == "📊 Bilgi Sistemi":
         }
         df_log = pd.DataFrame(log_data)
         st.dataframe(df_log, use_container_width=True, hide_index=True)
-        
         st.button("➕ Manuel Yeni Geri Bildirim Ekle (Modeli Eğit)")
 
 # --- 🗺️ 3. DİNAMİK EKİM TAKVİMİ ---
 elif page == "🗺️ Dinamik Ekim Takvimi":
     st.title("🗺️ Coğrafi Ekim ve Hasat Takvimi")
-    st.write("Yapay zeka analizine girmeden; seçilen bölge, iklim and mahsule göre agronomik takvimi dinamik olarak inceleyin.")
     
     col_takvim1, col_takvim2 = st.columns([1, 2])
-    
     with col_takvim1:
-        st.markdown("#### Bölge ve Mahsul Seçimi")
         secilen_bolge = st.selectbox("Bölge Seçiniz", ["Ege (Aydın/İzmir)", "İç Anadolu", "Çukurova", "Güneydoğu Anadolu"])
         secilen_mahsul = st.selectbox("Mahsul Seçiniz", ["Mısır", "Buğday", "Turp"])
         
-        st.markdown("#### Bölgesel Yoğunluk Haritası")
         if secilen_bolge == "Ege (Aydın/İzmir)":
             map_coords = pd.DataFrame(np.random.randn(15, 2) / [30, 30] + [37.84, 27.84], columns=['lat', 'lon'])
         else:
             map_coords = pd.DataFrame(np.random.randn(15, 2) / [15, 15] + [39.0, 35.0], columns=['lat', 'lon'])
             
         st.map(map_coords, zoom=6)
-        st.caption(f"Haritadaki noktalar {secilen_bolge} bölgesindeki {secilen_mahsul} uygunluk alanlarını temsil eder.")
 
     with col_takvim2:
         st.markdown(f"#### 📅 {secilen_bolge} Bölgesi - {secilen_mahsul} Optimizasyon Takvimi")
-        st.write("Bölgenin meteorolojik geçmişine göre oluşturulmuş en uygun gelişim evreleri:")
-        
         st.success("🌱 **1. Toprak Hazırlığı ve Taban Gübrelemesi (Mart 1. - 2. Hafta)**")
-        st.write("Toprak işleme tamamlanır. Tohum yatağı hazırlanır. TROIA formülasyonunun taban (katı) kısmı toprağa bu evrede karıştırılır.")
-        
         st.info("🌾 **2. Ekim Süreci (Mart 3. Hafta - Nisan 1. Hafta)**")
-        st.write("Toprak sıcaklığı stabil hale geldiğinde ekim gerçekleştirilir.")
-        
         st.warning("💧 **3. Üst Gübreleme ve Hidrojel Aktivasyonu (Mayıs 2. Hafta)**")
-        st.write("Bitki kritik büyüme eşiğine ulaştığında kalan formülasyon uygulanır, hidrojelin su tutma kapasitesini maksimize etmek için ilk yoğun sulama yapılır.")
-        
         st.error("🚜 **4. Hasat Dönemi (Ağustos 2. Hafta - Eylül 1. Hafta)**")
-        st.write("Nem oranı optimum seviyeye düştüğünde hasat işlemi başlatılır.")
         
         st.write("---")
         col_m1, col_m2, col_m3 = st.columns(3)
