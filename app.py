@@ -262,31 +262,27 @@ elif page == "🔬 Akıllı Formülasyon":
             [SEÇİLEN MAHSUL]: {urun.upper()} 
             [OPTİMİZASYON]: {opt_amaci.upper()}
             ================================================= 
-            1400 kg/dekar hedef verimine ulaşmak adına, tınlı toprak yapısının dinamikleri ve eldeki envanter dikkate alınarak hazırlanan besleme programı 4 ana faza bölünmüştür.
-3.1. Taban (Ekim Öncesi / Ekimle Birlikte) Gübrelemesi
-Toprağın mevcut fosfor seviyesini takviye etmek ve güçlü kök mimarisi oluşturmak amacıyla eldeki envanter
-gübresi tabana yerleştirilmiştir.
-Kullanılacak Gübre: DAP (18-46-0)
-Uygulama Miktarı: 30 kg / Dekar (Toplam: 1500 kg)
-Sağlanan Saf Besin Elementleri: 5.4 kg/dekar N, 13.8 kg/dekar P2O5
-3.2. Üst Gübreleme ve Kademeli Damlama Sulama Programı
-Evre A: Gelişme Dönemi (Ekimden ~30-35 Gün Sonra / 4-6 Yaprak)
-Vejetatif gelişmeyi ve yaprak alan endeksini optimize etmek amacıyla saf azot takviyesi uygulanır.
-• Gübre: Üre (%46 N) — 20 kg / Dekar (Toplam: 1000 kg)
-• Sağlanan Saf Element: 9.2 kg/dekar N
+    Mısır bitkisinin 1400 kg/dekar gibi yüksek bir hedef verime ulaşabilmesi için büyüme sezonu boyunca ihtiyaç duyduğu saf besin maddeleri, tarlanızın toprak analiziyle karşılaştırılarak tamamen sıfırdan ve en verimli şekilde planlanmıştır.
 
-Troia AI - Akıllı Gübreleme Raporu 1
+Jüri sunumunda veya raporlamada zorluk yaşamamanız için tüm formülasyonu tablo kullanmadan, doğrudan kopyalayabileceğiniz paragraflar ve listeler halinde hazırladım.
 
-Evre B: Hızlı Büyüme & Püskül Öncesi (Ekimden ~55-60 Gün Sonra / 8-10 Yaprak)
-Boylanma ve koçan taslağı oluşum evresinde nitrat formunda azot ve mikro element desteği sağlanır.
-• Gübre: Amonyum Nitrat (%33 N) + Çinko Sülfat — 25 kg/dekar AN + 1 kg/dekar Çinko Sülfat (Toplam: 1250
-kg AN / 50 kg ZnSO4)
-• Sağlanan Saf Element: 8.25 kg/dekar N + Mikro element takviyesi
-Evre C: Koçan Oluşumu & Tane Dolum Dönemi (Püskül Çıkarma Sonrası)
-Nişasta birikimini artırmak, dane ağırlığını maksimuma çıkarmak ve sap mukavemetini korumak için potasyum
-ağırlıklı besleme tetiklenmiştir.
-• Gübre: Potasyum Nitrat (%13 N - %46 K2O) — 15 kg / Dekar (Toplam: 750 kg)
-• Sağlanan Saf Element: 1.95 kg/dekar N, 6.9 kg/dekar K2O
+📋 1. Toprak Analizi Açıkları ve Saf İhtiyaç Yönetimi
+Modern mısır tarımında yüksek verim alabilmek için bitkinin topraktan kaldıracağı besin miktarı ile toprağın mevcut potansiyelinin doğru analiz edilmesi gerekir. Tarlanızdaki 80 ppm azot ve 120 ppm potasyum seviyeleri, 1400 kg hedefi için sınırda veya yetersizdir. Ayrıca mısırda koçan dizilimini ve dane sayısını doğrudan etkileyen çinko elementi de toprakta düşük seviyededir.
+
+Troia AI, bu eksikleri kapatmak için en yüksek yarayışlılığa sahip saf element ihtiyaçlarını şu stratejiyle belirlemiştir: Dekar başına net 26 kg saf Azot (N), kök mimarisi için 10 kg saf Fosfor (P2O5) ve tane dolumu için 18 kg saf Potasyum (K2O) toprağa ilave edilmelidir. Tınlı toprak yapısında bu elementlerin yıkanıp kaybolmaması için besleme programı bitkinin büyüme evrelerine göre bölünmüştür.
+
+🌾 2. Dönemsel ve İdeal Gübreleme Formülasyonu
+Taban Gübrelemesi (Ekimle Birlikte)
+Mısır bitkisinin topraktan ilk çıkış anında güçlü bir kök sistemi kurması ve toprakta orta seviyede bulunan fosfor açığını tamamen kapatması için başlangıçta çinkolu kompoze gübreler tercih edilmiştir. Bu evrede dekar başına 50 kg 20-20-0 + Zn (Çinkolu) gübresi uygulanacaktır. 50 dekarlık toplam alan için tedarik edilmesi gereken miktar 2500 kg'dır. Bu uygulama ile toprağa ilk aşamada 10 kg saf azot, 10 kg saf fosfor ve mısırın koçan yapısını garantiye alacak çinko elementi kazandırılmış olur.
+
+I. Üst Gübreleme (Gelişme Dönemi / 4-6 Yaprak Aşaması)
+Bitkinin vejetatif olarak boya kalktığı, gövde kalınlığını oluşturduğu ve yaprak yüzeyini hızla büyüttüğü bu ilk gelişme döneminde dönüşümü hızlı ve etkili bir saf azot kaynağı gerekir. Tınlı topraklarda bu evre için en verimli kaynak Üre (%46 N) gübresidir. Dekar başına 15 kg Üre uygulanması planlanmıştır. 50 dekarlık toplam arazi için 750 kg Üre gübresi gerekir ve bu sayede bitkiye 6.9 kg saf azot daha sağlanmış olur.
+
+II. Üst Gübreleme (Hızlı Büyüme ve Püskül Öncesi / 8-12 Yaprak Aşaması)
+Mısırın koçan taslağını satırlara döktüğü ve boylanmasının tepe noktasına ulaştığı bu kritik evrede bitki azotu çok hızlı tüketir. Toprağı stabilize etmek ve bitkinin ani azot ihtiyacını doğrudan karşılamak adına bu evrede Amonyum Nitrat (%33 N) tercih edilmiştir. Dekar başına 22 kg uygulanacak olan bu gübre, 50 dekar için toplamda 1100 kg'a tekabül eder. Bu sayede toprağa 7.26 kg saf azot daha ilave edilir.
+
+III. Üst Gübreleme (Damlama ile Tane Dolum Dönemi / Püskül Çıkarma Sonrası)
+Mısırın yeşil aksam büyümesini durdurup tüm enerjisini dane ağırlığına, nişasta birikimine ve koçan doldurmaya harcadığı son evredir. Bu dönemde azot miktarı minimuma indirilirken, potasyum zirveye çıkarılmalıdır. Sistem bu amaçla yüksek çözünürlüklü Potasyum Nitrat (%13-0-46) gübresini seçmiştir. Dekar başına 40 kg uygulanacak bu formülasyon, 50 dekar için toplam 2000 kg tedarik gerektirir. Bu son dokunuşla bitkiye 5.2 kg saf azot ve tane ağırlığını doğrudan artıracak olan 18.4 kg saf potasyum sağlanmış olur.
             ''')
             
             st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
