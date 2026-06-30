@@ -49,13 +49,34 @@ st.markdown("""
         padding: 10px;
         border-radius: 5px;
     }
+    
     </style>
     """, unsafe_allow_html=True)
 
 # Sol Menü (Sidebar Navigasyon)
 st.sidebar.title("TROIA Platform")
 page = st.sidebar.radio("Modül Seçiniz:", 
-                        ["🏠 TROIA Nedir?", "🔬 Akıllı Formülasyon", "📊 Bilgi Sistem", "🗺️ Dinamik Ekim Takvimi"])
+                 st.markdown("""
+    <style>
+    /* Sekme metinlerinin genel rengi */
+    button[data-baseweb="tab"] {
+        color: #2D6A4F !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Aktif (seçili) sekmenin alt çizgi ve yazı rengi */
+    div[data-baseweb="tab-list"] button[aria-selected="true"] {
+        color: #1B4332 !important;
+        border-bottom: 2px solid #2D6A4F !important;
+    }
+    
+    /* Sekme üzerine gelindiğinde (hover) oluşan renk */
+    button[data-baseweb="tab"]:hover {
+        color: #40916C !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)   
+    ["🏠 TROIA Nedir?", "🔬 Akıllı Formülasyon", "📊 Bilgi Sistem", "🗺️ Dinamik Ekim Takvimi"])
 
 # --- 🏠 ANA SAYFA (TROIA NEDİR?) ---
 if page == "🏠 TROIA Nedir?":
