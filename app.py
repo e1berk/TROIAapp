@@ -4,7 +4,7 @@ import numpy as np
 from datetime import date
 
 # Sayfa Yapılandırması
-st.set_page_config(page_title="TROIA | Yapay Zeka Tabanlı Tarımsal Formülasyon", layout="wide")
+st.set_page_config(page_title="TROIA | Üretken Yapay Zeka ile Tarlaya Özel Gübre ve Hidrojel Formülasyonu", layout="wide")
 
 # Kurumsal Kimlik CSS Entegrasyonu
 st.markdown("""
@@ -55,21 +55,21 @@ st.markdown("""
 # Sol Menü (Sidebar Navigasyon)
 st.sidebar.title("TROIA Platform")
 page = st.sidebar.radio("Modül Seçiniz:", 
-                        ["🏠 TROIA Nedir?", "🔬 Akıllı Formülasyon", "📊 Bilgi Sistemi", "🗺️ Dinamik Ekim Takvimi"])
+                        ["🏠 TROIA Nedir?", "🔬 Akıllı Formülasyon", "📊 Bilgi Sistem", "🗺️ Dinamik Ekim Takvimi"])
 
 # --- 🏠 ANA SAYFA (TROIA NEDİR?) ---
 if page == "🏠 TROIA Nedir?":
     st.title("TROIA")
-    st.subheader("Ezbere Tarıma Son: Veri Odaklı Hücresel Besleme.")
+    st.subheader("Ezbere Değil, İhtiyaca Göre Gübre.")
     st.write("---")
     
     st.markdown("""
-    ### 🌾 Geleneksel Tarımdaki İrrasyonelliğe Dijital Müdahale
+    ### 🌾 Geleneksel Tarımdaki Ezbere Gübrelemeye Son!
     Bugün tarım ekosistemindeki en büyük krizlerden biri, üreticilerin tarlalarının gerçek biyokimyasal ihtiyacını bilmeden, 
-    kulaktan dolma bilgilerle veya standart katalog gübreleriyle körleme üretim yapmasıdır. Bu durum hem toprakların 
-    pH/tuzluluk dengesini bozarak kilitlenmesine neden olmakta hem de milyarlarca liralık ekonomik israfa yol açmaktadır.
+    kulaktan dolma bilgilerle veya standart katalog gübreleriyle üretim yapmasıdır. Bu durum hem toprakların 
+    pH/tuzluluk dengesini bozarak yıkanmasına neden olmakta hem de milyarlarca liralık ekonomik israfa yol açmaktadır.
     
-    **TROIA**, bu ezbere dayalı yapıyı kırmak için geliştirilmiş, Üretken Yapay Zeka (Agent AI) tabanlı bir karar destek ve formülasyon sistemidir.
+    **TROIA**, bu ezbere dayalı yapıyı çözmek için geliştirilmiş, Üretken Yapay Zeka (Agent AI) tabanlı bir karar destek ve formülasyon sistemidir.
     """)
     
     st.write("---")
@@ -95,7 +95,7 @@ if page == "🏠 TROIA Nedir?":
         st.markdown("""
         <div class="highlight-box">
             <h4>📈 Sürdürülebilir Verimlilik Artışı</h4>
-            <p>Aşırı gübrelemenin yarattığı toprak yıkanmasını ve yeraltı suyu kirliliğini engelleyerek, birim alandan alınan mahsul kalitesini hücresel düzeyde artırmak.</p>
+            <p>Aşırı gübrelemenin yarattığı toprak yıkanmasını ve yeraltı suyu kirliliğini engelleyerek, birim alandan alınan mahsul kalitesini artırmak.</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -112,16 +112,16 @@ if page == "🏠 TROIA Nedir?":
     col_team1, col_team2, col_team3 = st.columns(3)
     with col_team1:
         st.markdown("**Ege Berk Çınar**")
-        st.caption("Sistem Mimarı & İş Geliştirme")
+        st.caption("Ekip Lideri, İş ve Yazılım Geliştirme")
     with col_team2:
         st.markdown("**Elif Çiçek Akkor**")
-        st.caption("Tarımsal Gıda Analisti")
+        st.caption("Tarıms Faaliyetleri, Ar-Ge")
     with col_team3:
         st.markdown("**Liva Erkul**")
-        st.caption("Bilimsel Validasyon (Boğaziçi MBG)")
+        st.caption("Danışman, Bilimsel Temel - Boğaziçi Moleküler Biyoloji ve Genetik")
         
     st.write("")
-    st.caption("📧 İletişim: contact@troia-ai.com | 📍 Ortaklar - Aydın / İstanbul")
+    st.caption("📧 İletişim: cinaregeberk00@gmail.com | 📍 Ortaklar - Aydın / İstanbul")
 
 # --- 🔬 1. AKILLI FORMÜLASYON ---
 elif page == "🔬 Akıllı Formülasyon":
@@ -141,11 +141,11 @@ elif page == "🔬 Akıllı Formülasyon":
 
     # Veri Giriş Sekmeleri (Kullanıcıyı yormamak için bölündü)
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "📍 1. Tarla & İklim", 
+        "📍 1. Tarla", 
         "🧪 2. Toprak Analizi", 
-        "🌾 3. Mahsul & Geçmiş", 
+        "🌾 3. Mahsul Seçimi & Geçmiş Ekimler", 
         "💧 4. Sulama & Ekonomi", 
-        "🚀 5. Analiz & Üret"
+        "🚀 5. Analiz"
     ])
 
     # SEKME 1: TARLA VE İKLİM
