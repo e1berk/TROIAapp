@@ -49,7 +49,21 @@ st.markdown("""
         padding: 10px;
         border-radius: 5px;
     }
+
+    /* Sekme stilleri */
+    button[data-baseweb="tab"] {
+        color: #2D6A4F !important;
+        font-weight: 600 !important;
+    }
     
+    div[data-baseweb="tab-list"] button[aria-selected="true"] {
+        color: #1B4332 !important;
+        border-bottom: 2px solid #2D6A4F !important;
+    }
+    
+    button[data-baseweb="tab"]:hover {
+        color: #40916C !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
