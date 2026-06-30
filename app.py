@@ -261,16 +261,32 @@ elif page == "🔬 Akıllı Formülasyon":
             [PERİYOT KİMLİĞİ]: {tarla_adi.upper()}
             [SEÇİLEN MAHSUL]: {urun.upper()} 
             [OPTİMİZASYON]: {opt_amaci.upper()}
-            =================================================
-            -> ÖNERİLEN KİŞİSELLEŞTİRİLMİŞ REÇETE
-            - Saf Azot (N) İhtiyacı: 18 kg/da (Kademeli Salınım Planı)
-            - Fosfor (P) Takviyesi: Kilitlenme tespit edildiği için %40 azaltıldı.
-            - Hidrojel Entegrasyon Oranı: %3.2 (Seçilen sulama profiline göre)
-            
-            -> ZAMANLAMA VE UYGULAMA
-            1. Ekim Öncesi (Taban): Özel formülasyonun %60'ı ve Hidrojel
-            2. Gelişim Dönemi (Üst): Kalan %40 sıvı formda damlamadan.
-            =================================================
+            ================================================= 
+            1400 kg/dekar hedef verimine ulaşmak adına, tınlı toprak yapısının dinamikleri ve eldeki envanter dikkate alınarak hazırlanan besleme programı 4 ana faza bölünmüştür.
+3.1. Taban (Ekim Öncesi / Ekimle Birlikte) Gübrelemesi
+Toprağın mevcut fosfor seviyesini takviye etmek ve güçlü kök mimarisi oluşturmak amacıyla eldeki envanter
+gübresi tabana yerleştirilmiştir.
+Kullanılacak Gübre: DAP (18-46-0)
+Uygulama Miktarı: 30 kg / Dekar (Toplam: 1500 kg)
+Sağlanan Saf Besin Elementleri: 5.4 kg/dekar N, 13.8 kg/dekar P2O5
+3.2. Üst Gübreleme ve Kademeli Damlama Sulama Programı
+Evre A: Gelişme Dönemi (Ekimden ~30-35 Gün Sonra / 4-6 Yaprak)
+Vejetatif gelişmeyi ve yaprak alan endeksini optimize etmek amacıyla saf azot takviyesi uygulanır.
+• Gübre: Üre (%46 N) — 20 kg / Dekar (Toplam: 1000 kg)
+• Sağlanan Saf Element: 9.2 kg/dekar N
+
+Troia AI - Akıllı Gübreleme Raporu 1
+
+Evre B: Hızlı Büyüme & Püskül Öncesi (Ekimden ~55-60 Gün Sonra / 8-10 Yaprak)
+Boylanma ve koçan taslağı oluşum evresinde nitrat formunda azot ve mikro element desteği sağlanır.
+• Gübre: Amonyum Nitrat (%33 N) + Çinko Sülfat — 25 kg/dekar AN + 1 kg/dekar Çinko Sülfat (Toplam: 1250
+kg AN / 50 kg ZnSO4)
+• Sağlanan Saf Element: 8.25 kg/dekar N + Mikro element takviyesi
+Evre C: Koçan Oluşumu & Tane Dolum Dönemi (Püskül Çıkarma Sonrası)
+Nişasta birikimini artırmak, dane ağırlığını maksimuma çıkarmak ve sap mukavemetini korumak için potasyum
+ağırlıklı besleme tetiklenmiştir.
+• Gübre: Potasyum Nitrat (%13 N - %46 K2O) — 15 kg / Dekar (Toplam: 750 kg)
+• Sağlanan Saf Element: 1.95 kg/dekar N, 6.9 kg/dekar K2O
             ''')
             
             st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
