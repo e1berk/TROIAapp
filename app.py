@@ -305,19 +305,11 @@ elif page == "🔬 Akıllı Formülasyon":
                         - Sulama altyapısına ve optimizasyon amacına uygun Akıllı Su & Hidrojel Kullanım Tavsiyeleri
                         """
                        # ... prompt tanımından hemen sonraki kısım ...
-try:
-    # Hem güncel modeli zorla hem de yapılandırmayı netleştir
-    model = genai.GenerativeModel(
-        model_name='gemini-1.5-flash'
-    )
-    
-    # Alternatif olarak 404 devam ederse üst satırı silip şunu dene:
-    # model = genai.GenerativeModel('models/gemini-1.5-flash')
-
-    response = model.generate_content(prompt)
-    
-    st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
-    st.markdown(response.text)
+                        try:
+                        # Kodlar burada
+                         model = genai.GenerativeModel('gemini-1.5-flash')
+                        response = model.generate_content(prompt)
+                        # Arada başka kodlar girdi veya except bloğu silindi/yanlış girintilendi
                         st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
                         st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
                         
