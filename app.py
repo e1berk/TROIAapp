@@ -4,20 +4,25 @@ import numpy as np
 from datetime import date
 import json                     
 import google.generativeai as genai
+from google.generativeai.types import GenerationConfig
 
-# --- API YAPILANDIRMASI ---
+# --- API YAPILANDIRMASI (KESİN ÇÖZÜM) ---
 if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"] != "":
     api_key_to_use = st.secrets["GEMINI_API_KEY"]
 else:
-    # Görseldeki güncel AQ. ile başlayan anahtarın:
+    # Aktif olarak kullandığın güncel anahtarın
     api_key_to_use = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg"
 
-# Yeni format anahtarlarda çevre değişkenini doğrudan set etmek en garanti yöntemdir
+# Kütüphanenin OAuth hatasına düşmesini engellemek için anahtarı 
+# hem çevre değişkenine hem de doğrudan istemci katmanına zorla enjekte ediyoruz.
 import os
 os.environ["GEMINI_API_KEY"] = api_key_to_use
-genai.configure(api_key=api_key_to_use)
+
+# Klasik configure yerine doğrudan alt istemciyi tetikliyoruz
+genai.configure(client_options={"api_key": api_key_to_use})
 # ----------------------------------------
 
+# Sayfa Yapılandırması buradan itibaren aynen devam ediyor...
 st.set_page_config(page_title="TROIA | Üretken Yapay Zeka ile Tarlaya Özel Gübre ve Hidrojel Formülasyonu", layout="wide")
 
 st.markdown("""
