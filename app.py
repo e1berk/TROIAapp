@@ -5,11 +5,25 @@ from datetime import date
 import json                     
 import google.generativeai as genai
 
-# API Yapılandırması (st.secrets kullanımı tavsiye edilir, buraya geçerli API anahtarınızı giriniz)
-API_KEY = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg"
-genai.configure(api_key=API_KEY)
+import streamlit as st
+import pandas as pd
+import numpy as np
+from datetime import date
+import json                     
+import google.generativeai as genai
 
-# Sayfa Yapılandırması
+# --- API YAPILANDIRMASI (KESİN ÇÖZÜM) ---
+# Önce Streamlit Secrets kontrol edilir, yoksa kodun içine doğrudan gömülen yedek anahtar devreye girer.
+if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"] != "":
+    api_key_to_use = st.secrets["GEMINI_API_KEY"]
+else:
+    # Eğer Secrets ayarını yapamadıysan, doğrudan senin çalışan anahtarını yedek olarak kullanıyoruz:
+    api_key_to_use = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg"
+
+genai.configure(api_key=api_key_to_use)
+# ----------------------------------------
+
+# Sayfa Yapılandırması (Buradan itibaren kodun aynen devam ediyor...)
 st.set_page_config(page_title="TROIA | Üretken Yapay Zeka ile Tarlaya Özel Gübre ve Hidrojel Formülasyonu", layout="wide")
 
 st.markdown("""
