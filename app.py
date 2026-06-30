@@ -304,11 +304,20 @@ elif page == "🔬 Akıllı Formülasyon":
                         - Dönemsel ve İdeal Gübreleme Formülasyonu (Taban, Gelişme dönemi, püskül/tane dolum dönemleri için ticari gübre isimleri, kg hesapları ve saf madde dengeleriyle)
                         - Sulama altyapısına ve optimizasyon amacına uygun Akıllı Su & Hidrojel Kullanım Tavsiyeleri
                         """
+                       # ... prompt tanımından hemen sonraki kısım ...
+try:
+    # Hem güncel modeli zorla hem de yapılandırmayı netleştir
+    model = genai.GenerativeModel(
+        model_name='gemini-1.5-flash'
+    )
+    
+    # Alternatif olarak 404 devam ederse üst satırı silip şunu dene:
+    # model = genai.GenerativeModel('models/gemini-1.5-flash')
 
-                        # Gemini Model Çağrısı
-                        model = genai.GenerativeModel('models/gemini-1.5-flash')
-                        response = model.generate_content(prompt)
-                        
+    response = model.generate_content(prompt)
+    
+    st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
+    st.markdown(response.text)
                         st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
                         st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
                         
