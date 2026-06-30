@@ -255,7 +255,7 @@ elif page == "🔬 Akıllı Formülasyon":
                                   "Maksimum Su Tasarrufu (Hidrojel Odaklı)",
                                   "Çevresel Etkiyi Azaltmak (Organik/Regeneratif)"])
 
-   with tab5:
+    with tab5:
         st.markdown("#### TROIA Agent AI Motoru")
         st.write("Girdiğiniz veriler doğrudan ham HTTP isteği ile Gemini API'ye iletilir.")
         
@@ -263,10 +263,7 @@ elif page == "🔬 Akıllı Formülasyon":
             with st.spinner("TROIA Agent AI verileri işliyor..."):
                 import requests
                 
-                # Kullandığın aktif anahtar
                 api_key = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg"
-                
-                # URL'den ?key= parametresini tamamen kaldırdık, saf endpoint'e istek atıyoruz
                 url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
                 
                 prompt = f"""
@@ -299,7 +296,6 @@ elif page == "🔬 Akıllı Formülasyon":
                 - Akıllı Su & Hidrojel Kullanım Tavsiyeleri
                 """
                 
-                # API Anahtarını hem x-goog-api-key hem de Authorization başlığına gömüyoruz
                 headers = {
                     'Content-Type': 'application/json',
                     'x-goog-api-key': api_key
