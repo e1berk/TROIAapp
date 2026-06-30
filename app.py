@@ -147,11 +147,11 @@ if page == "🏠 TROIA Nedir?":
     st.caption("📧 İletişim: cinaregeberk00@gmail.com | 📍 Ortaklar - Aydın / İstanbul")
 
 # --- 🔬 1. AKILLI FORMÜLASYON ---
+# --- 🔬 1. AKILLI FORMÜLASYON ---
 elif page == "🔬 Akıllı Formülasyon":
     st.title("🔬 Akıllı Formülasyon Modülü")
     st.write("Tarlanıza özel biyokimyasal reçeteyi oluşturmak için verilerinizi adım adım girin. İlgili olmayan alanları boş bırakabilirsiniz, eksik veriler AI tarafından bölgesel ortalamalarla tamamlanacaktır.")
     
-    # 0. Periyot İsimlendirme (Sabit Üst Başlık)
     with st.container():
         st.markdown("### 📌 Formülasyon Kaydı (Periyot)")
         col_p1, col_p2 = st.columns([3, 1])
@@ -162,7 +162,6 @@ elif page == "🔬 Akıllı Formülasyon":
             
     st.write("---")
 
-    # Veri Giriş Sekmeleri
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "📍 1. Tarla", 
         "🧪 2. Toprak Analizi", 
@@ -171,7 +170,6 @@ elif page == "🔬 Akıllı Formülasyon":
         "🚀 5. Analiz"
     ])
 
-    # SEKME 1: TARLA VE İKLİM
     with tab1:
         st.markdown("#### Tarla Fiziksel Özellikleri")
         col1_1, col1_2, col1_3 = st.columns(3)
@@ -185,16 +183,8 @@ elif page == "🔬 Akıllı Formülasyon":
             egim = st.selectbox("Eğim Durumu", ["Düz (%0-2)", "Hafif Eğimli (%2-6)", "Eğimli (%6-12)", "Dik"])
             baki = st.selectbox("Bakı Yönü", ["Kuzey", "Güney", "Doğu", "Batı", "Düz"])
 
-        st.info("🌤️ **İklim Verileri:** Konum (Koordinat) baz alınarak ortalama sıcaklık, son yağış miktarı, toprak nemi ve don/kuraklık riski API üzerinden sisteme otomatik entegre edilmektedir. Kullanıcı girişi gerekmez.")
-
-    # SEKME 2: TOPRAK ANALİZİ
     with tab2:
         st.markdown("#### Laboratuvar Toprak Analizi")
-        st.markdown("Değerleri manuel girmek yerine laboratuvar PDF/JPG dosyanızı yükleyerek tablonun **yapay zeka tarafından otomatik doldurulmasını** sağlayabilirsiniz.")
-        uploaded_file = st.file_uploader("Laboratuvar Sonuç Raporu Yükle", type=['pdf', 'jpg', 'png'])
-        if uploaded_file is not None:
-            st.success("Belge işlendi! Değerler aşağıdaki tabloya başarıyla aktarıldı.")
-
         st.markdown("##### Değer Kontrol / Manuel Giriş Alanı")
         col2_1, col2_2, col2_3 = st.columns(3)
         with col2_1:
@@ -219,25 +209,22 @@ elif page == "🔬 Akıllı Formülasyon":
             cu_val = st.number_input("Bakır (Cu)", value=0.0)
             b_val = st.number_input("Bor (B)", value=0.0)
 
-    # SEKME 3: MAHSUL VE GEÇMİŞ
     with tab3:
         st.markdown("#### Güncel Mahsul Planlaması")
         col3_1, col3_2 = st.columns(2)
         with col3_1:
             urun = st.selectbox("Ekilmesi Planlanan Ürün", ["Mısır", "Turp", "Buğday", "Pamuk", "Ayçiçeği"])
             cesit = st.text_input("Çeşit (Örn: Pioneer, Dekalb)")
-            hedef_verim = st.number_input("Hedeflenen Verim (kg/dekar)", min_value=0)
+            hedef_verim = st.number_input("Hedeflenen Verim (kg/dekar)", min_value=0.0)
         with col3_2:
             tohum_tipi = st.selectbox("Tohum Tipi", ["Sertifikalı", "Yerel/Ata Tohumu"])
             ekim_tarihi = st.date_input("Planlanan Ekim Tarihi")
             hasat_tarihi = st.date_input("Planlanan Hasat Tarihi")
 
-        with st.expander("🕰️ Geçmiş Tarım Verileri & Mevcut Stoklar (Önerilir)"):
-            st.write("Yapay zekanın toprağın yorgunluğunu ve önceki kimyasal yükünü analiz etmesi için çok değerlidir.")
-            gecmis_ozet = st.text_area("Son 5 Yılın Özeti", placeholder="Örn: 2024'te buğday ekildi, 450kg verim alındı, 20-20-0 gübre kullanıldı. Pas hastalığı görüldü...")
-            mevcut_gubreler = st.text_input("Hali hazırda elinizde bulunan ve değerlendirilmesini istediğiniz gübreler (Marka/Formül)")
+        with st.expander("🕰️ Geçmiş Tarım Verileri & Mevcut Stoklar"):
+            gecmis_ozet = st.text_area("Son 5 Yılın Özeti", placeholder="Örn: 2024'te buğday ekildi...")
+            mevcut_gubreler = st.text_input("Hali hazırda elinizde bulunan gübreler")
 
-    # SEKME 4: SULAMA VE EKONOMİ
     with tab4:
         st.markdown("#### Sulama ve Altyapı")
         col4_1, col4_2 = st.columns(2)
@@ -255,72 +242,52 @@ elif page == "🔬 Akıllı Formülasyon":
                                   "Maksimum Su Tasarrufu (Hidrojel Odaklı)",
                                   "Çevresel Etkiyi Azaltmak (Organik/Regeneratif)"])
 
-    # SEKME 5: ÜRETİM MOTORU (API ENTEGRASYONU)
     with tab5:
         st.markdown("#### TROIA Agent AI Motoru")
-        st.write("Girdiğiniz fiziksel veriler, laboratuvar sonuçları, tarım döngüsü ve ekonomik öncelikleriniz analiz edilecektir.")
+        st.write("Girdiğiniz veriler API üzerinden doğrudan Gemini'a iletilecektir.")
         
         if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
-            if API_KEY == "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg" or not API_KEY:
-                st.error("Lütfen geçerli bir Gemini API Anahtarı giriniz.")
-            else:
-                with st.spinner("TROIA Agent AI verileri işliyor, optimizasyon senaryoları hesaplanıyor..."):
-                    try:
-                        # Tüm sekmelerdeki değişkenleri içeren dinamik prompt yapısı
-                        prompt = f"""
-                        Sen tarımsal agronomist ve akıllı gübreleme sistemleri üzerine uzmanlaşmış TROIA yapay zeka motorusun. 
-                        Aşağıda sağlanan tüm parametreleri değerlendirerek sürdürülebilir, bilimsel ve detaylı bir tarla reçetesi oluştur.
+            with st.spinner("TROIA Agent AI verileri işliyor..."):
+                try:
+                    prompt = f"""
+                    Sen tarımsal agronomist ve akıllı gübreleme sistemleri üzerine uzmanlaşmış TROIA yapay zeka motorusun. 
+                    Aşağıda sağlanan tüm parametreleri değerlendirerek sürdürülebilir, bilimsel ve detaylı bir tarla reçetesi oluştur.
 
-                        [PERİYOT KİMLİĞİ]: {tarla_adi} (Kayıt Tarihi: {kayit_tarihi})
-                        
-                        1. TARLA VE FİZİKSEL ÖZELLİKLER:
-                        - Alan: {alan} Dekar
-                        - Toprak Tipi: {toprak_tipi}
-                        - Rakım: {rakim} metre
-                        - Drenaj Durumu: {drenaj}
-                        - Eğim Durumu: {egim}
-                        - Bakı Yönü: {baki}
+                    [PERİYOT KİMLİĞİ]: {tarla_adi} (Kayıt Tarihi: {kayit_tarihi})
+                    
+                    1. TARLA VE FİZİKSEL ÖZELLİKLER:
+                    - Alan: {alan} Dekar | Toprak Tipi: {toprak_tipi} | Rakım: {rakim} m
+                    - Drenaj: {drenaj} | Eğim: {egim} | Bakı: {baki}
 
-                        2. LABORATUVAR TOPRAK ANALİZİ:
-                        - pH: {ph} | EC: {ec} | Organik Madde (%): {om} | Kireç (%): {kirec} | Tuzluluk: {tuzluluk} dS/m
-                        - Makro Elementler: Azot (N): {n_val} | Fosfor (P): {p_val} | Potasyum (K): {k_val}
-                        - Sekonder & Mikro Elementler: Kalsiyum (Ca): {ca_val} | Magnezyum (Mg): {mg_val} | Demir (Fe): {fe_val} | Çinko (Zn): {zn_val} | Mangan (Mn): {mn_val} | Bakır (Cu): {cu_val} | Bor (B): {b_val}
+                    2. LABORATUVAR TOPRAK ANALİZİ:
+                    - pH: {ph} | EC: {ec} | OM(%): {om} | Kireç(%): {kirec} | Tuzluluk: {tuzluluk} dS/m
+                    - N: {n_val} | P: {p_val} | K: {k_val} | Ca: {ca_val} | Mg: {mg_val} 
+                    - Fe: {fe_val} | Zn: {zn_val} | Mn: {mn_val} | Cu: {cu_val} | B: {b_val}
 
-                        3. MAHSUL VE GEÇMİŞ EKİM BİLGİLERİ:
-                        - Hedeflenen Mahsul: {urun} (Çeşit: {cesit})
-                        - Tohum Tipi: {tohum_tipi}
-                        - Hedeflenen Verim: {hedef_verim} kg/dekar
-                        - Planlanan Ekim / Hasat: {ekim_tarihi} / {hasat_tarihi}
-                        - Geçmiş Tarım Özeti: {gecmis_ozet}
-                        - Eldeki Mevcut Gübreler: {mevcut_gubreler}
+                    3. MAHSUL VE GEÇMİŞ:
+                    - Mahsul: {urun} ({cesit}) | Tohum: {tohum_tipi} | Hedef Verim: {hedef_verim} kg/da
+                    - Planlanan Ekim/Hasat: {ekim_tarihi} / {hasat_tarihi}
+                    - Geçmiş Özet: {gecmis_ozet} | Mevcut Gübreler: {mevcut_gubreler}
 
-                        4. SULAMA VE EKONOMİK ÖNCELİKLER:
-                        - Sulama Tipi: {sulama_tipi} | Kaynak: {su_kaynagi} | Sıklık: {sulama_sikligi}
-                        - Optimizasyon Önceliği: {opt_amaci}
+                    4. SULAMA VE EKONOMİ:
+                    - Sulama: {sulama_tipi} | Kaynak: {su_kaynagi} | Sıklık: {sulama_sikligi}
+                    - Optimizasyon Önceliği: {opt_amaci}
 
-                        Lütfen jüri veya üretici raporlamasında doğrudan kullanılabilecek, tablo içermeyen, paragraflar ve listeler şeklinde net bir analiz sun. 
-                        Raporda şunlar yer almalıdır:
-                        - Toprak Analizi Açıkları ve Saf İhtiyaç Yönetimi (Optimizasyon amacına uygun yorumlar dahil)
-                        - Dönemsel ve İdeal Gübreleme Formülasyonu (Taban, Gelişme dönemi, püskül/tane dolum dönemleri için ticari gübre isimleri, kg hesapları ve saf madde dengeleriyle)
-                        - Sulama altyapısına ve optimizasyon amacına uygun Akıllı Su & Hidrojel Kullanım Tavsiyeleri
-                        """
-                       # ... prompt tanımından hemen sonraki kısım ...
-                        try:
-                        # Kodlar burada
-                            model = genai.GenerativeModel('gemini-1.5-flash')
-                            response = model.generate_content(prompt)
-                        # Arada başka kodlar girdi veya except bloğu silindi/yanlış girintilendi
-                            st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
-                            st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
-                        
-                        # Yapay zekadan gelen canlı çıktıyı ekrana yazdırma
-                            st.markdown(response.text)
-                        
-                        except Exception as e:
-                            st.error(f"API çağrısı sırasında bir hata oluştu: {e}")
-                
-                            st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
+                    Tablo kullanmadan, sadece paragraflar ve listeler kullanarak şu başlıkları analiz et:
+                    - Toprak Analizi Açıkları ve Saf İhtiyaç Yönetimi
+                    - Dönemsel ve İdeal Gübreleme Formülasyonu
+                    - Akıllı Su & Hidrojel Kullanım Tavsiyeleri
+                    """
 
+                    model = genai.GenerativeModel('models/gemini-1.5-flash')
+                    response = model.generate_content(prompt)
+                    
+                    st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
+                    st.markdown(response.text)
+                    st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
+                    
+                except Exception as e:
+                    st.error(f"API çağrısı sırasında bir hata oluştu. Hata detayı: {e}")
 # --- 📊 2. BİLGİ SİSTEMİ ---
 elif page == "📊 Bilgi Sistemi":
     st.title("📊 Bilgi Sistemi ve Periyot Günlüğü")
