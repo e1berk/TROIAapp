@@ -6,7 +6,6 @@ from datetime import date
 # Sayfa Yapılandırması
 st.set_page_config(page_title="TROIA | Üretken Yapay Zeka ile Tarlaya Özel Gübre ve Hidrojel Formülasyonu", layout="wide")
 
-# Kurumsal Kimlik CSS Entegrasyonu
 st.markdown("""
     <style>
     /* Ana Arka Planı Temizle */
@@ -55,20 +54,16 @@ st.markdown("""
         color: #2D6A4F !important;
         font-weight: 600 !important;
     }
-    
-    /* Aktif (seçili) sekmenin alt çizgi ve yazı rengi */
     div[data-baseweb="tab-list"] button[aria-selected="true"] {
         color: #1B4332 !important;
         border-bottom: 2px solid #2D6A4F !important;
     }
-    
-    /* Sekme üzerine gelindiğinde (hover) oluşan renk */
     button[data-baseweb="tab"]:hover {
         color: #40916C !important;
     }
 
-    /* Girdi parametrelerinin (Alan, Rakım, Ürün vb.) etiket yazı rengini düzelt */
-    [data-testid="stWidgetLabel"] p, label {
+    /* Tüm input etiketleri ve radio metinleri için genel renk düzeltme */
+    label, div[data-testid="stRadio"] label, p, .stRadio > div > label {
         color: #212529 !important;
         font-weight: 500 !important;
     }
