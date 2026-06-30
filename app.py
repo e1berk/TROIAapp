@@ -239,55 +239,46 @@ elif page == "🔬 Akıllı Formülasyon":
         st.markdown("#### TROIA Agent AI Motoru")
         st.write("Girdiğiniz veriler doğrudan ham HTTP isteği ile Gemini API'ye iletilir.")
         
-        # --- 🚀 5. Analiz Sekmesindeki Değişiklik ---
-if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
-    with st.spinner("TROIA Agent AI verileri işliyor..."):
+      with tab5:
+        st.markdown("#### TROIA Agent AI Motoru")
+        st.write("Girdiğiniz veriler doğrudan ham HTTP isteği ile Gemini API'ye iletilir.")
         
-        # Güncel ve desteklenen model endpoint'i
-        url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
-        
-        # ... prompt tanımı aynı kalacak ...
-        
-        headers = {
-            'Content-Type': 'application/json',
-            'x-goog-api-key': api_key_to_use
-        }
-        
-        payload = {
-            "contents": [{
-                "parts": [{"text": prompt}]
-            }]
-        }
+        if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True):
+            with st.spinner("TROIA Agent AI verileri işliyor..."):
                 
+                # Model endpoint'i
+                url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+                
+                # Prompt tanımlaması (Girintiler düzeltildi)
                 prompt = f"""
-                Sen tarımsal agronomist ve akıllı gübreleme sistemleri üzerine uzmanlaşmış TROIA yapay zeka motorusun. 
-                Aşağıda sağlanan tüm parametreleri değerlendirerek sürdürülebilir, bilimsel ve detaylı bir tarla reçetesi oluştur.
+Sen tarımsal agronomist ve akıllı gübreleme sistemleri üzerine uzmanlaşmış TROIA yapay zeka motorusun. 
+Aşağıda sağlanan tüm parametreleri değerlendirerek sürdürülebilir, bilimsel ve detaylı bir tarla reçetesi oluştur.
 
-                [PERİYOT KİMLİĞİ]: {tarla_adi} (Kayıt Tarihi: {kayit_tarihi})
-                
-                1. TARLA VE FİZİKSEL ÖZELLİKLER:
-                - Alan: {alan} Dekar | Toprak Tipi: {toprak_tipi} | Rakım: {rakim} m
-                - Drenaj: {drenaj} | Eğim: {egim} | Bakı: {baki}
+[PERİYOT KİMLİĞİ]: {tarla_adi} (Kayıt Tarihi: {kayit_tarihi})
 
-                2. LABORATUVAR TOPRAK ANALİZİ:
-                - pH: {ph} | EC: {ec} | OM(%): {om} | Kireç(%): {kirec} | Tuzluluk: {tuzluluk} dS/m
-                - N: {n_val} | P: {p_val} | K: {k_val} | Ca: {ca_val} | Mg: {mg_val} 
-                - Fe: {fe_val} | Zn: {zn_val} | Mn: {mn_val} | Cu: {cu_val} | B: {b_val}
+1. TARLA VE FİZİKSEL ÖZELLİKLER:
+- Alan: {alan} Dekar | Toprak Tipi: {toprak_tipi} | Rakım: {rakim} m
+- Drenaj: {drenaj} | Eğim: {egim} | Bakı: {baki}
 
-                3. MAHSUL VE GEÇMİŞ:
-                - Mahsul: {urun} ({cesit}) | Tohum: {tohum_tipi} | Hedef Verim: {hedef_verim} kg/da
-                - Planlanan Ekim/Hasat: {ekim_tarihi} / {hasat_tarihi}
-                - Geçmiş Özet: {gecmis_ozet} | Mevcut Gübreler: {mevcut_gubreler}
+2. LABORATUVAR TOPRAK ANALİZİ:
+- pH: {ph} | EC: {ec} | OM(%): {om} | Kireç(%): {kirec} | Tuzluluk: {tuzluluk} dS/m
+- N: {n_val} | P: {p_val} | K: {k_val} | Ca: {ca_val} | Mg: {mg_val} 
+- Fe: {fe_val} | Zn: {zn_val} | Mn: {mn_val} | Cu: {cu_val} | B: {b_val}
 
-                4. SULAMA VE EKONOMİ:
-                - Sulama: {sulama_tipi} | Kaynak: {su_kaynagi} | Sıklık: {sulama_sikligi}
-                - Optimizasyon Önceliği: {opt_amaci}
+3. MAHSUL VE GEÇMİŞ:
+- Mahsul: {urun} ({cesit}) | Tohum: {tohum_tipi} | Hedef Verim: {hedef_verim} kg/da
+- Planlanan Ekim/Hasat: {ekim_tarihi} / {hasat_tarihi}
+- Geçmiş Özet: {gecmis_ozet} | Mevcut Gübreler: {mevcut_gubreler}
 
-                Tablo kullanmadan, sadece paragraflar and listeler kullanarak şu başlıkları analiz et:
-                - Toprak Analizi Açıkları ve Saf İhtiyaç Yönetimi
-                - Dönemsel ve İdeal Gübreleme Formülasyonu
-                - Akıllı Su & Hidrojel Kullanım Tavsiyeleri
-                """
+4. SULAMA VE EKONOMİ:
+- Sulama: {sulama_tipi} | Kaynak: {su_kaynagi} | Sıklık: {sulama_sikligi}
+- Optimizasyon Önceliği: {opt_amaci}
+
+Tablo kullanmadan, sadece paragraflar and listeler kullanarak şu başlıkları analiz et:
+- Toprak Analizi Açıkları ve Saf İhtiyaç Yönetimi
+- Dönemsel ve İdeal Gübreleme Formülasyonu
+- Akıllı Su & Hidrojel Kullanım Tavsiyeleri
+"""
                 
                 headers = {
                     'Content-Type': 'application/json',
@@ -308,7 +299,6 @@ if st.button("🚀 Formülasyon Reçetesini Oluştur", use_container_width=True)
                         text_response = res_json['candidates'][0]['content']['parts'][0]['text']
                         st.success(f"'{tarla_adi}' tarlası için analiz tamamlandı!")
                         st.markdown(text_response)
-                        st.info("Toprak kilitlenme riski incelendi... Geçmiş kimyasal yük dengelendi... Ekonomik optimizasyon uygulandı...")
                     else:
                         st.error(f"API Hatası ({response.status_code}): {res_json.get('error', {}).get('message', 'Bilinmeyen Hata')}")
                 except Exception as e:
