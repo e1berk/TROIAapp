@@ -316,7 +316,7 @@ elif page == "🔬 Akıllı Formülasyon":
                         # Yapay zekadan gelen canlı çıktıyı ekrana yazdırma
                         st.markdown(response.text)
                         
-                    except Exception as e:
+                        except Exception as e:
                         st.error(f"API çağrısı sırasında bir hata oluştu: {e}")
                 
                 st.button("💾 Bu Periyodu Bilgi Sistemine (Veri Havuzu) Kaydet")
