@@ -66,9 +66,14 @@ st.markdown("""
     button[data-baseweb="tab"]:hover {
         color: #40916C !important;
     }
+
+    /* Girdi parametrelerinin (Alan, Rakım, Ürün vb.) etiket yazı rengini düzelt */
+    [data-testid="stWidgetLabel"] p, label {
+        color: #212529 !important;
+        font-weight: 500 !important;
+    }
     </style>
     """, unsafe_allow_html=True)
-
 # Sol Menü (Sidebar Navigasyon) - Temizlendi ve Eşleştirildi
 st.sidebar.title("TROIA Platform")
 page = st.sidebar.radio("Modül Seçiniz:", ["🏠 TROIA Nedir?", "🔬 Akıllı Formülasyon", "📊 Bilgi Sistemi", "🗺️ Dinamik Ekim Takvimi"])
