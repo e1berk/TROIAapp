@@ -5,13 +5,6 @@ from datetime import date
 import json                     
 import google.generativeai as genai
 
-import streamlit as st
-import pandas as pd
-import numpy as np
-from datetime import date
-import json                     
-import google.generativeai as genai
-
 # --- API YAPILANDIRMASI (KESİN ÇÖZÜM) ---
 # Önce Streamlit Secrets kontrol edilir, yoksa kodun içine doğrudan gömülen yedek anahtar devreye girer.
 if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"] != "":
