@@ -9,11 +9,8 @@ import os
 import requests
 
 # --- API YAPILANDIRMASI ---
-if "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"] != "":
-    api_key_to_use = st.secrets["GEMINI_API_KEY"].strip()
-else:
-    # Görünmez karakterlerden arındırılmış saf anahtar stringi
-    api_key_to_use = "AQ.Ab8RN6Josm0_Ywcz4pE2HT6g4UYuM2EYT52Q3ky8Rj3mBaCQSg".strip()
+# Yeni verdiğin API anahtarını doğrudan sabitleyerek tüm mekanizmalara enjekte ediyoruz
+api_key_to_use = "AQ.Ab8RN6LtWzai8gOcNJU-tp-K05qYjeYVZ1Vvt3QUMggJuYDhzw".strip()
 
 os.environ["GEMINI_API_KEY"] = api_key_to_use
 genai.configure(client_options={"api_key": api_key_to_use})
@@ -270,7 +267,7 @@ elif page == "🔬 Akıllı Formülasyon":
                 - Sulama: {sulama_tipi} | Kaynak: {su_kaynagi} | Sıklık: {sulama_sikligi}
                 - Optimizasyon Önceliği: {opt_amaci}
 
-                Tablo kullanmadan, sadece paragraflar ve listeler kullanarak şu başlıkları analiz et:
+                Tablo kullanmadan, sadece paragraflar and listeler kullanarak şu başlıkları analiz et:
                 - Toprak Analizi Açıkları ve Saf İhtiyaç Yönetimi
                 - Dönemsel ve İdeal Gübreleme Formülasyonu
                 - Akıllı Su & Hidrojel Kullanım Tavsiyeleri
